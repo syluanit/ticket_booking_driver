@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.AddNewRoadActivity">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/myAddNewRoadMap"
+    tools:context=".Activity.MainActivity"
+    android:name="com.google.android.gms.maps.MapFragment" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnBack"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_arrow_back_black_24dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <RelativeLayout
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/rectangle_white_border"
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:textAlignment="center"
+            android:id="@+id/spinnerFrom"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@id/btnAdd" />
+
+        <Spinner
+            android:id="@+id/spinnerTo"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/spinnerFrom"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@+id/btnAdd" />
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:text="Thêm"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

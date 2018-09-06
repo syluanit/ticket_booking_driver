@@ -4,38 +4,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/holo_blue_dark">
+    >
 
-    <EditText
-        android:id="@+id/et_diem_di_map"
+    <android.support.constraint.ConstraintLayout
+        android:alpha="0.7"
+        android:id="@+id/myLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:hint="Điểm đi"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rectangle_white_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/et_diem_den_map"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:hint="Điểm đến"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_diem_di_map" />
+        <AutoCompleteTextView
+            android:id="@+id/et_diem_di_map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:hint="Bạn muốn đi đâu?"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment
+        <AutoCompleteTextView
+            android:id="@+id/et_diem_den_map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:hint="Bạn muốn tới đâu?"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_diem_di_map" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/et_diem_den_map">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="50dp"
+                android:src="@drawable/ic_directions_car_black_24dp" />
+
+            <TextView
+                android:hint="Thời gian(Khoảng cách)"
+                android:id="@+id/tvDuration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:tools="http://schemas.android.com/tools"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/myMap"-->
+        <!--tools:context=".Activity.MainActivity"-->
+        <!--android:name="com.google.android.gms.maps.MapFragment" />-->
+
+    <com.google.android.gms.maps.MapView
         android:id="@+id/myMap"
-        android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></fragment>
+        android:layout_height="match_parent">
+    </com.google.android.gms.maps.MapView>
 
 </android.support.constraint.ConstraintLayout>

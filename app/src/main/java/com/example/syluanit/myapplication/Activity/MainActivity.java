@@ -2,6 +2,7 @@ package com.example.syluanit.myapplication.Activity;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,10 +15,12 @@ import com.example.syluanit.myapplication.Fragment.Fragment_So_Do_Xe;
 import com.example.syluanit.myapplication.Fragment.Fragment_Thong_Tin;
 import com.example.syluanit.myapplication.Model.CONSTANT;
 import com.example.syluanit.myapplication.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity{
 
-    TabLayout tabLayout;
+    public TabLayout tabLayout;
     ViewPager viewPager;
 
     @Override
@@ -35,7 +38,5 @@ public class MainActivity extends AppCompatActivity {
         homeViewPagerAdapter.addFragment(new Fragment_Thong_Tin(), "Thông Tin");
         viewPager.setAdapter(homeViewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
     }
-
 }

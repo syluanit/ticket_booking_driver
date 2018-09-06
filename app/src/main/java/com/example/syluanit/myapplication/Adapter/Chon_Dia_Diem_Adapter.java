@@ -55,7 +55,7 @@ public class Chon_Dia_Diem_Adapter extends BaseAdapter {
         DiaDiem diaDiem = diaDiemList.get(position);
 
         tv_time.setText(diaDiem.getPlace());
-        iv_icon.setImageResource(diaDiem.getIcon());
+//        iv_icon.setImageResource(diaDiem.getIcon());
 
         return convertView;
     }
