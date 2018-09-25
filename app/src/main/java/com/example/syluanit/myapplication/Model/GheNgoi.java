@@ -2,6 +2,7 @@ package com.example.syluanit.myapplication.Model;
 
 public class GheNgoi {
     private int hinhAnh;
+    private int Cua;
     private String viTri;
     private int trangThai;
 
@@ -14,6 +15,21 @@ public class GheNgoi {
         this.hinhAnh = hinhAnh;
         this.viTri = viTri;
         this.trangThai = trangThai;
+    }
+
+    public GheNgoi(int hinhAnh, int cua, String viTri, int trangThai) {
+        this.hinhAnh = hinhAnh;
+        Cua = cua;
+        this.viTri = viTri;
+        this.trangThai = trangThai;
+    }
+
+    public int getCua() {
+        return Cua;
+    }
+
+    public void setCua(int cua) {
+        Cua = cua;
     }
 
     public int getTrangThai() {

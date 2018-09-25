@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@mipmap/signout"
+            android:title="Đăng xuất" />
+        <item
+            android:checked="true"
+            android:id="@+id/nav_route"
+            android:icon="@mipmap/search"
+            android:title="Sơ đồ xe" />
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@mipmap/map"
+            android:title="Bản đồ" />
+        <item
+            android:id="@+id/nav_drivermap"
+            android:icon="@mipmap/drivemap"
+            android:title="Tài xế chỉ đường" />
+        <item
+            android:id="@+id/nav_new_road"
+            android:icon="@mipmap/newroad"
+            android:title="Đường đi mới" />
+        <item
+            android:id="@+id/nav_info"
+            android:icon="@mipmap/chauffer"
+            android:title="Thông tin cá nhân" />
+    </group>
+
+    <item android:title="Thông tin">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@mipmap/info"
+                android:title="Giới thiệu" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@mipmap/contact"
+                android:title="Liên Hệ" />
+        </menu>
+    </item>
+</menu>

@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/nav_height">
 
     <ImageView
-        android:src="@drawable/ic_location_on_black_24dp"
+        android:padding="5dp"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/location"
         android:layout_margin="3dp"
-        android:scaleType="fitXY"
         android:id="@+id/iv_diadiem"
         android:layout_width="40dp"
         android:layout_height="40dp"
         />
     <TextView
-        android:textSize="20sp"
+        android:layout_marginLeft="5dp"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/body_text_size"
         android:text="Địa Điểm"
         android:layout_toRightOf="@+id/iv_diadiem"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
+
         android:singleLine="true"
         android:id="@+id/tv_diadiem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <ImageView
+        android:padding="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/next"
+        android:layout_margin="3dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        />
 </RelativeLayout>

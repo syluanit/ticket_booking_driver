@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/white_border_20dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/edit_thong_tin"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="15dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Chỉnh sửa thông tin"
+            android:textSize="@dimen/body_text_size_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkGrey"/>
+
+        <TextView
+            android:id="@+id/change_password"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="15dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Đổi mật khẩu"
+            android:textSize="@dimen/body_text_size_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkGrey"/>
+
+        <TextView
+            android:id="@+id/back_edit"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="15dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Hủy"
+            android:textSize="@dimen/body_text_size_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</RelativeLayout>

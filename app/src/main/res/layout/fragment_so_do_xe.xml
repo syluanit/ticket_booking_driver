@@ -1,34 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
 
-    <TextView
-        android:id="@+id/tv_ma_chuyen_xe"
-        android:text="Nhập mã để tìm chuyến xe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <EditText
-        app:layout_constraintTop_toBottomOf="@+id/tv_ma_chuyen_xe"
-        android:id="@+id/et_ma_chuyen_xe"
-        android:hint="Mã chuyến xe"
+    <LinearLayout
+        android:padding="10dp"
+        android:background="@drawable/white_border_top"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <FrameLayout
-        android:id="@+id/layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_ma_chuyen_xe">
+        <TextView
+            android:textSize="@dimen/body_text_size"
+            android:id="@+id/tv_ma_chuyen_xe"
+            android:text="Nhập mã để tìm chuyến xe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center"
+                android:background="@mipmap/search1"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size" />
+        <EditText
+            android:layout_gravity="center"
+            android:textSize="@dimen/body_text_size"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ma_chuyen_xe"
+            android:id="@+id/et_ma_chuyen_xe"
+            android:hint="Mã chuyến xe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    </FrameLayout>
+        </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/layout"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="0dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="1.0"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/et_ma_chuyen_xe">-->
+
+    <!--</FrameLayout>-->
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/white_border_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textSize="@dimen/body_text_size"
+            android:text="Nhập thông tin để tìm chuyến xe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:layout_gravity="center"
+            android:background="@mipmap/city"
+            android:id="@+id/imageView2"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            />
+
+        <EditText
+            android:layout_gravity="center"
+            android:textSize="@dimen/body_text_size"
+            android:id="@+id/et_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Nhập điểm đi"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center"
+                android:background="@mipmap/city"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                />
+
+            <EditText
+                android:layout_gravity="center"
+                android:textSize="@dimen/body_text_size"
+                android:id="@+id/et_to"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Nhập điểm đến"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+
+                android:layout_gravity="center"
+                android:background="@mipmap/calendar"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                />
+        <EditText
+            android:textSize="@dimen/body_text_size"
+            android:hint="Chọn ngày đi"
+            android:id="@+id/pickDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+             />
+        </LinearLayout>
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:textSize="@dimen/body_text_size"
+                android:id="@+id/radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ghế ngồi" />
+
+            <RadioButton
+                android:checked="true"
+                android:textSize="@dimen/body_text_size"
+                android:id="@+id/radioButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Giường nằm" />
+        </RadioGroup>
+
+        <Button
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rectangle_gradient_light"
+            android:layout_gravity="center"
+            android:textSize="@dimen/nav_head_text_size"
+            android:id="@+id/btn_ticketSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tìm chuyến xe"
+            />
+    </LinearLayout>
+</LinearLayout>

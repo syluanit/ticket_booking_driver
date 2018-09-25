@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarLayoutTimeList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_height">
+
+            <ImageView
+                android:padding="8dp"
+                android:id="@+id/back_pressed_editation"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_navigate_before_black_24dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <android.support.v7.widget.Toolbar
+                android:textAlignment="center"
+                android:gravity="center"
+                android:id="@+id/toolbarSearch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nav_height"
+                android:background="?attr/colorPrimary" >
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/nav_header_color"
+                    android:textSize="@dimen/nav_head_text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chỉnh sửa thông tin cá nhân"
+                    android:layout_gravity="center"
+                    android:id="@+id/toolbar_title" />
+            </android.support.v7.widget.Toolbar>
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:textSize="@dimen/body_text_size"
+                android:hint="Họ tên"
+                android:id="@+id/tv_Name_editation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <EditText
+                android:textSize="@dimen/body_text_size"
+                android:hint="Email"
+                android:id="@+id/tv_Email_editation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:textSize="@dimen/body_text_size"
+                android:hint="Số di động"
+                android:id="@+id/tv_PhoneNumber_editation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:textSize="@dimen/body_text_size"
+                android:hint="CMND/Hộ chiếu"
+                android:id="@+id/tv_IdCard_editation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:textSize="@dimen/body_text_size"
+                android:hint="Địa chỉ"
+                android:id="@+id/tv_Address_editation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:textSize="@dimen/body_text_size"
+                    android:hint="Tỉnh/Thành phố_editation"
+                    android:id="@+id/tv_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:textSize="@dimen/body_text_size"
+                    android:hint="Quận/Huyện_editation"
+                    android:id="@+id/tv_district"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+
+        <Button
+            android:textSize="@dimen/nav_head_text_size"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rectangle_gradient"
+            android:text="Cập nhật thông tin"
+            android:id="@+id/btn_editation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

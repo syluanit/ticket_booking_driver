@@ -1,23 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activity.Ghe_Ngoi_Activity">
 
-    <android.support.v7.widget.RecyclerView
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarLayoutTimeList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        android:id="@+id/rv_GheNgoi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-    <Button
-        android:id="@+id/btn_back"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="Quay về"
-        android:layout_below="@+id/rv_GheNgoi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+        <RelativeLayout  android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_height">
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:padding="8dp"
+                android:id="@+id/so_do_back_pressed"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_navigate_before_black_24dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/nav_header_color"
+                android:textSize="@dimen/nav_head_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SƠ ĐỒ XE"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title" />
+
+        </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+
+        android:id="@+id/layout_giuong_nam"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TabLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            app:tabIndicatorHeight="0dp"
+            app:tabTextColor="@color/colorPrimary"
+            app:tabSelectedTextColor="@color/white"
+            app:tabMode="fixed"
+            app:tabTextAppearance="@style/Toolbar.TitleText"
+            app:tabBackground="@drawable/tab_color_selector"
+            android:id="@+id/myTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+        </android.support.design.widget.TabLayout>
+
+
+        <android.support.v4.view.ViewPager
+            android:scrollbars="vertical"
+            android:background="@color/grey"
+            android:id="@+id/myViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_ghe_ngoi"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:background="@drawable/rectangle_gradient"
+            android:gravity="center"
+            android:textSize="@dimen/body_text_size"
+            android:text="Chọn ghế ngồi"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:padding="10dp"
+            android:background="@color/grey"
+            android:layout_weight="1"
+            android:id="@+id/rv_GheNgoi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/myLayout"
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+
+                    android:background="@drawable/seat_lock"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="@dimen/body_text_size_small"
+                    android:textColor="@android:color/black"
+                    android:text="Vé đã đặt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:background="@mipmap/seat"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="@dimen/body_text_size_small"
+                    android:textColor="@android:color/black"
+                    android:text="Vé trống"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/myLayout"
+            android:background="@drawable/rectangle_gradient_light"
+            android:id="@+id/btn_back"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="Quay về"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>

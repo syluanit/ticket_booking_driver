@@ -38,5 +38,6 @@ public class MainActivity extends FragmentActivity{
         homeViewPagerAdapter.addFragment(new Fragment_Thong_Tin(), "Thông Tin");
         viewPager.setAdapter(homeViewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setIcon(R.mipmap.ic_launcher);
     }
 }

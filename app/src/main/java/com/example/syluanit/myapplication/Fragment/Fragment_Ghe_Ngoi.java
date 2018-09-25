@@ -41,7 +41,7 @@ public class Fragment_Ghe_Ngoi extends Fragment {
             if (i < 25 && (i % 5) % 2 != 0) {
                 gheNgoiArrayList.add(new GheNgoi(0, "" + i));
             } else {
-                gheNgoiArrayList.add(new GheNgoi(R.drawable.front_bus, "" + i,0));
+                gheNgoiArrayList.add(new GheNgoi(R.mipmap.seat, "" + i,0));
             }
         }
 
