@@ -30,9 +30,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.syluanit.myapplication.Activity.Home;
 import com.example.syluanit.myapplication.Activity.MainActivity;
 import com.example.syluanit.myapplication.Adapter.PlaceAutocompleteAdapter;
 import com.example.syluanit.myapplication.Interface.DirectionFinderListener;
@@ -62,12 +64,18 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CustomCap;
+import com.google.android.gms.maps.model.Dot;
+import com.google.android.gms.maps.model.Gap;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.RoundCap;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -75,6 +83,7 @@ import com.google.android.gms.tasks.Task;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
@@ -82,7 +91,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Toast.makeText(getActivity(), "Map is Ready", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Map is Ready", Toast.LENGTH_SHORT).show();
         MapsInitializer.initialize(getContext());
         map = googleMap;
 
@@ -123,12 +132,12 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
     private GeoDataClient geoDataClient;
     private Place mPlace;
     //widgets
-    TabLayout tabLayout; //TabLayout from main activity
     View view;
     private AutoCompleteTextView et_from, et_to;
-    MapView mapView;
+    private MapView mapView;
     private ConstraintLayout myLayout;
     private TextView tvDuration;
+    private LinearLayout distanceLayout;
 
 
     @Nullable
@@ -139,40 +148,23 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         et_to = (AutoCompleteTextView) view.findViewById(R.id.et_diem_den_map);
         tvDuration = (TextView) view.findViewById(R.id.tvDuration);
         myLayout = (ConstraintLayout) view.findViewById(R.id.myLayout);
+        distanceLayout = (LinearLayout) view.findViewById(R.id.DistanceLayout);
         myLayout.bringToFront();
+
+        if (isServicesOK()) {
+            getLocationPermission();
+            et_from.setText("");
+            et_to.setText("");
+            tvDuration.setText("");
+        }
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        tabLayout = (TabLayout) getActivity().findViewById(R.id.myTabLayout);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 1:
-                        if (isServicesOK()) {
-                            getLocationPermission();
-                            et_from.setText("");
-                            et_to.setText("");
-                            tvDuration.setText("");
-                        }
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//
+//    }
 
 
     public boolean isServicesOK() {
@@ -382,26 +374,6 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         }
     };
 
-//    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback = new ResultCallback<PlaceBuffer>() {
-//        @Override
-//        public void onResult(@NonNull PlaceBuffer places) {
-//            if (!places.getStatus().isSuccess()){
-//                Log.d(TAG, "onResult: Place query did not complete successully: " + places.getStatus().toString());
-//                places.release();
-//                return;
-//            }
-//
-//            final Place place =  places.get(0);
-//            try {
-//                Log.d(TAG, "onResult: " + place.toString());
-//            }catch(NullPointerException e ){
-//                Log.e(TAG, "onResult: NullPointerException" + e.getMessage() );
-//            }
-//            mPlace = place;
-//            moveCamera(mPlace.getLatLng(), DEFAULT_ZOOM, mPlace.getName().toString());
-//            places.release();
-//        }
-//    };
 
     private OnCompleteListener<PlaceBufferResponse> mUpdatePlaceDetailsCallback
             = new OnCompleteListener<PlaceBufferResponse>() {
@@ -435,15 +407,16 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         String origin = et_from.getText().toString();
         String destination = et_to.getText().toString();
         if (origin.isEmpty()) {
-            Toast.makeText(getActivity(), "Please enter origin address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Bạn chưa nhập điểm đi!", Toast.LENGTH_SHORT).show();
             return;
         } else if (destination.isEmpty()) {
-            Toast.makeText(getActivity(), "Please enter destination address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Bạn chưa nhập điểm đến!", Toast.LENGTH_SHORT).show();
             return;
-        } else map.clear();
+        }
+        else map.clear();
 
         try {
-            new DirectionFinder(this, origin, destination).execute();
+            new DirectionFinder(Fragment_Ban_Do.this, origin, destination).execute();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -451,8 +424,8 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onDirectionFinderStart() {
-        progressDialog = ProgressDialog.show(getContext(), "Please wait.",
-                "Finding direction..!", true);
+            progressDialog = ProgressDialog.show(getContext(), "Làm ơn đợi.",
+                    "Đang tìm đường..!", true);
 
         if (originMarkers != null) {
             for (Marker marker : originMarkers) {
@@ -473,10 +446,19 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         }
     }
 
+    private static final PatternItem DOT = new Dot();
+    private static final PatternItem GAP = new Gap(1);
+    //
+// Create a stroke pattern of a gap followed by a dot.
+    private static final List<PatternItem> PATTERN_POLYLINE_DOTTED = Arrays.asList(GAP, DOT);
+
     @Override
     public void onDirectionFinderSuccess(List<Route> routes) {
         Log.d(TAG, "onDirectionFinderSuccess: ");
+
         progressDialog.dismiss();
+        distanceLayout.setVisibility(View.VISIBLE);
+
         polylinePaths = new ArrayList<>();
         originMarkers = new ArrayList<>();
         destinationMarkers = new ArrayList<>();
@@ -498,8 +480,13 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
 
             PolylineOptions polylineOptions = new PolylineOptions().
                     geodesic(true).
-                    color(Color.BLUE).
-                    width(10);
+                    color(ContextCompat.getColor(getContext(),R.color.colorPrimary)).
+                    width(10).
+                    pattern(PATTERN_POLYLINE_DOTTED).
+//                    endCap(new RoundCap()).
+                    jointType(JointType.ROUND);
+//                    .startCap(new CustomCap(
+//                            BitmapDescriptorFactory.fromResource(R.mipmap.location), 10));
 
             for (int i = 0; i < route.points.size(); i++)
                 polylineOptions.add(route.points.get(i));

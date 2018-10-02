@@ -30,7 +30,7 @@ import com.example.syluanit.myapplication.R;
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TabLayout tabLayout;
+    public static TabLayout tabLayout;
     ViewPager viewPager;
     TextView title;
     NavigationView navigationView;

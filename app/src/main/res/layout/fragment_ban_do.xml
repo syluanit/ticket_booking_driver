@@ -51,6 +51,8 @@
             app:layout_constraintTop_toBottomOf="@+id/et_diem_di_map" />
 
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/DistanceLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="0dp"

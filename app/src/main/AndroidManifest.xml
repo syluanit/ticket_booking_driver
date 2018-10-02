@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Home"></activity>
+        <activity android:name=".Activity.Home" />
         <activity android:name=".Activity.Chon_Dia_Diem" />
         <activity android:name=".Activity.Ghe_Ngoi_Activity" />
         <activity android:name=".Activity.AddNewRoadActivity" />
@@ -41,7 +41,8 @@
         <!-- android:theme="@style/AppTheme"></activity> -->
         <activity android:name=".Activity.EditInfoForm" />
         <activity android:name=".Activity.ChangePasswordForm" />
-        <activity android:name=".Activity.EditTicketForm"></activity>
+        <activity android:name=".Activity.EditTicketForm" />
+        <activity android:name=".Activity.SignIn"></activity>
     </application>
 
 </manifest>

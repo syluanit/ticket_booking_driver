@@ -1,20 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_centerInParent="true"
-    android:background="@android:color/darker_gray">
+    tools:context=".Activity.AddNewRoadActivity">
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<android.support.constraint.ConstraintLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:background="@android:color/darker_gray">-->
+
+    <!--<Button-->
+    <!--android:id="@+id/btn_addNewRoad"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Nhấn Vào Để Thêm Đường Đi Mới"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
+    <!--</android.support.constraint.ConstraintLayout>-->
+
+    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:id="@+id/myAddNewRoadMap"-->
+    <!--tools:context=".Activity.MainActivity"-->
+    <!--android:name="com.google.android.gms.maps.MapFragment" />-->
+
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/myMap_addNewRoad"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.google.android.gms.maps.MapView>
 
     <Button
-        android:id="@+id/btn_addNewRoad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nhấn Vào Để Thêm Đường Đi Mới"
+        android:visibility="gone"
+        android:id="@+id/btnBack"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_arrow_back_black_24dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <RelativeLayout
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/rectangle_white_border"
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:textAlignment="center"
+            android:id="@+id/spinnerFrom"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@id/layout_add_show" />
+
+        <Spinner
+            android:id="@+id/spinnerTo"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/spinnerFrom"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@+id/layout_add_show" />
+
+        <LinearLayout
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/layout_add_show"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+
+                android:textColor="@color/white"
+                android:background="@drawable/rectangle_gradient_dark"
+                android:id="@+id/btnShow"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:text="Tìm"
+                android:textSize="@dimen/body_text_size" />
+
+            <Button
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rectangle_gradient_light"
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:text="THêm"
+                android:textSize="@dimen/body_text_size" />
+
+        </LinearLayout>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
