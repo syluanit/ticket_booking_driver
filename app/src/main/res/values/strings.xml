@@ -12,4 +12,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="gps_network_not_enabled">Ứng dụng muốn sử dụng định vị của thiết bị</string>
+    <string name="open_location_settings">Cho phép </string>
+    <string name="Cancel">Hủy</string>
 </resources>

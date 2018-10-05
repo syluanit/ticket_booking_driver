@@ -34,7 +34,6 @@
         <activity android:name=".Activity.Home" />
         <activity android:name=".Activity.Chon_Dia_Diem" />
         <activity android:name=".Activity.Ghe_Ngoi_Activity" />
-        <activity android:name=".Activity.AddNewRoadActivity" />
         <!-- <activity -->
         <!-- android:name=".Home" -->
         <!-- android:label="@string/title_activity_home" -->

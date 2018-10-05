@@ -19,7 +19,7 @@
         <item
             android:id="@+id/nav_drivermap"
             android:icon="@mipmap/drivemap"
-            android:title="Tài xế chỉ đường" />
+            android:title="Tài xế quanh bạn" />
         <item
             android:id="@+id/nav_new_road"
             android:icon="@mipmap/newroad"

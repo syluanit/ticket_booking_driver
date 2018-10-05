@@ -1,15 +1,22 @@
 package com.example.syluanit.myapplication.Fragment;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.syluanit.myapplication.Activity.Home;
 import com.example.syluanit.myapplication.Adapter.Chon_Dia_Diem_Adapter;
 import com.example.syluanit.myapplication.Interface.DirectionFinderListener;
 import com.example.syluanit.myapplication.Model.DiaDiem;
@@ -34,6 +42,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -55,16 +64,52 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        if (LocationPermissionsGranted) {
-            getDeviceLocation();
-            if (ActivityCompat.checkSelfPermission(getContext(),
-                    FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(getContext(),
-                    COURSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            map.setMyLocationEnabled(true);
-            map.getUiSettings().setMyLocationButtonEnabled(false);
+
+        final LocationManager lm = (LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE);
+        final boolean[] gps_enabled = {false};
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled[0] = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+
+        if(!gps_enabled[0] && !network_enabled) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+            dialog.setMessage(getContext().getResources().getString(R.string.gps_network_not_enabled));
+            dialog.setPositiveButton(getContext().getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    getContext().startActivity(myIntent);
+                    //get gps
+
+                }
+            });
+            dialog.setNegativeButton(getContext().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+            dialog.show();
+        }
+        else {
+            if (LocationPermissionsGranted) {
+                getDeviceLocation();
+                if (ActivityCompat.checkSelfPermission(getContext(),
+                        FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(getContext(),
+                        COURSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                map.setMyLocationEnabled(true);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
 
 //            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 //                @Override
@@ -96,41 +141,46 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
 //                    }
 //                }
 //            });
+                btnShow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sendRequest();
+                    }
+                });
 
-            //Check the view of Back button
-            btnBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //remove the last added maker
-                    Marker marker = markerHashMap.get("maker_new_road" + listPoints.size());
-                    marker.remove();
-                    //remove the last added polyline
-                    Polyline polyline = polylineHashMap.get("polyline_new_road"+ listPoints.size());
-                    polyline.remove();
+                //Check the view of Back button
+                btnBack.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //remove the last added maker
+                        Marker marker = markerHashMap.get("maker_new_road" + listPoints.size());
+                        marker.remove();
+                        //remove the last added polyline
+                        Polyline polyline = polylineHashMap.get("polyline_new_road" + listPoints.size());
+                        polyline.remove();
 
-                    listPoints.remove(listPoints.size() - 1);
-                    //check the conditional view of button
-                    if (listPoints.size() == 1) {
-                        btnBack.setVisibility(View.GONE);}
-                }
-            });
+                        listPoints.remove(listPoints.size() - 1);
+                        //check the conditional view of button
+                        if (listPoints.size() == 1) {
+                            btnBack.setVisibility(View.GONE);
+                        }
+                    }
+                });
 
-            sendRequest();
+                map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                    @Override
+                    public void onMarkerDragStart(Marker marker) {
+                    }
 
-            map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-                @Override
-                public void onMarkerDragStart(Marker marker) {
-                }
+                    @Override
+                    public void onMarkerDrag(Marker marker) {
 
-                @Override
-                public void onMarkerDrag(Marker marker) {
+                    }
 
-                }
-
-                @Override
-                public void onMarkerDragEnd(Marker marker) {
-                    map.clear();
-                    Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                    @Override
+                    public void onMarkerDragEnd(Marker marker) {
+                        map.clear();
+                        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
 
 //                        List <Address> addresses =  geocoder.getFromLocation(marker.getPosition().latitude,
 //                                marker.getPosition().longitude, 1);
@@ -156,10 +206,10 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
 
                         String endAddress = getCompleteAddressString(destinationMarkers.get(0).getPosition());
                         String startAddress = getCompleteAddressString(originMarkers.get(0).getPosition());
-                    sign =1;
+                        sign = 1;
                         try {
-                            new DirectionFinder(Fragment_Duong_Di_Moi.this,"quan 1", changePostion).execute();
-                            new DirectionFinder(Fragment_Duong_Di_Moi.this,changePostion, "quan 3").execute();
+                            new DirectionFinder(Fragment_Duong_Di_Moi.this, "quan 1", changePostion).execute();
+                            new DirectionFinder(Fragment_Duong_Di_Moi.this, changePostion, "quan 3").execute();
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
@@ -169,10 +219,11 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
 //                    LatLng endAddress = destinationMarkers.get(0).getPosition();
 
 
-                    moveCamera(marker.getPosition(), DEFAULT_ZOOM, "Changed");
-                }
-            });
+                        moveCamera(marker.getPosition(), DEFAULT_ZOOM, "Changed");
+                    }
+                });
 
+            }
         }
     }
 
@@ -216,7 +267,7 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
     HashMap<String, Marker> markerHashMap;
     HashMap<String, Polyline> polylineHashMap;
     //widgets
-    Button btnBack, btnAdd;
+    Button btnBack, btnAdd, btnShow;
     RelativeLayout relativeLayout;
     Spinner spinnerFrom, spinnerTo;
     Chon_Dia_Diem_Adapter chon_dia_diem_adapter_new_road;
@@ -231,6 +282,7 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
         view = inflater.inflate(R.layout.fragment_duong_di_moi, container, false);
         btnBack = (Button) view.findViewById(R.id.btnBack);
         btnAdd = (Button) view.findViewById(R.id.btnAdd);
+        btnShow = (Button) view.findViewById(R.id.btnShow);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.relativeLayout);
         spinnerFrom = (Spinner) view.findViewById(R.id.spinnerFrom);
         spinnerTo = (Spinner) view.findViewById(R.id.spinnerTo);
@@ -251,8 +303,8 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
         polylineHashMap = new HashMap<>();
 
         getLocationPermission();
-        sign = 0;
 
+        sign = 0;
         return view;
     }
 
@@ -405,15 +457,13 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
 //            ((TextView) findViewById(R.id.tvDistance)).setText(route.distance.text);
 
             originMarkers.add(map.addMarker(new MarkerOptions()
-//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue))
+//                    .icon(BitmapDescriptorFactory.defaultMarker(ContextCompat.getColor(getContext(), R.color.colorPrimary)))
                     .title(route.startAddress)
                     .position(route.startLocation)));
             destinationMarkers.add(map.addMarker(new MarkerOptions()
-//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green))
                     .title(route.endAddress)
                     .position(route.endLocation)));
-
-
+//                    .icon(BitmapDescriptorFactory.defaultMarker(ContextCompat.getColor(getContext(), R.color.colorPrimary)))));
 
             PolylineOptions polylineOptions = new PolylineOptions().
                     geodesic(true).
@@ -422,10 +472,16 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
 
             for (int i = 0; i < route.points.size(); i++){
                 polylineOptions.add(route.points.get(i));
-                map.addMarker(new MarkerOptions().position(route.points.get(i))).setDraggable(true);
+                {
+                    map.addMarker(new MarkerOptions().
+                            position(route.points.get(i)))
+//                            .icon(BitmapDescriptorFactory.defaultMarker(ContextCompat.getColor(getContext(), R.color.colorPrimary))))
+                            .setDraggable(true)
+                    ;
+                }
               }
 
-            Log.d(TAG, "onDirectionFinderSuccess: " + polylineOptions.toString());
+//            Log.d(TAG, "onDirectionFinderSuccess: " + polylineOptions.toString());
             polylinePaths.add(map.addPolyline(polylineOptions));
 //            Polyline polyline = map.addPolyline(polylineOptions);
 //            polyline.setClickable(true);
@@ -447,4 +503,5 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
         Toast.makeText(getActivity(), "yeah yeah", Toast.LENGTH_SHORT).show();
 
     }
+
 }

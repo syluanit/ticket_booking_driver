@@ -2,14 +2,20 @@ package com.example.syluanit.myapplication.Fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -95,18 +101,55 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         MapsInitializer.initialize(getContext());
         map = googleMap;
 
-        if (LocationPermissionsGranted) {
-            getDeviceLocation();
-            if (ActivityCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            map.setMyLocationEnabled(true);
-            map.getUiSettings().setMyLocationButtonEnabled(false);
 
-            init();
+        final LocationManager lm = (LocationManager)getContext().getSystemService(Context.LOCATION_SERVICE);
+        final boolean[] gps_enabled = {false};
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled[0] = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+
+        if(!gps_enabled[0] && !network_enabled) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+            dialog.setMessage(getContext().getResources().getString(R.string.gps_network_not_enabled));
+            dialog.setPositiveButton(getContext().getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    getContext().startActivity(myIntent);
+                    //get gps
+
+                }
+            });
+            dialog.setNegativeButton(getContext().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+            dialog.show();
+        }
+        else {
+            if (LocationPermissionsGranted) {
+                getDeviceLocation();
+                if (ActivityCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                map.setMyLocationEnabled(true);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+
+                init();
+            }
         }
     }
 
@@ -122,7 +165,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
     // vars
     private Boolean LocationPermissionsGranted = false;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private GoogleMap map;
+     @Nullable private GoogleMap map;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private List<Marker> originMarkers = new ArrayList<>();
     private List<Marker> destinationMarkers = new ArrayList<>();
@@ -151,12 +194,13 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         distanceLayout = (LinearLayout) view.findViewById(R.id.DistanceLayout);
         myLayout.bringToFront();
 
-        if (isServicesOK()) {
+        if ( isServicesOK()) {
             getLocationPermission();
             et_from.setText("");
             et_to.setText("");
             tvDuration.setText("");
         }
+
         return view;
     }
 
@@ -308,6 +352,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
                     .title(title);
+//                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_location));
             map.addMarker(options);
         }
     }
@@ -357,7 +402,15 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
-/*
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (map != null){
+            map.clear();
+        }
+    }
+
+    /*
 ---------------------------- google places API complete suggestions-------------------
  */
 
@@ -491,7 +544,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
             for (int i = 0; i < route.points.size(); i++)
                 polylineOptions.add(route.points.get(i));
 
-            Log.d(TAG, "onDirectionFinderSuccess: " + polylineOptions.toString());
+//            Log.d(TAG, "onDirectionFinderSuccess: " + polylineOptions.toString());
             polylinePaths.add(map.addPolyline(polylineOptions));
 
         }

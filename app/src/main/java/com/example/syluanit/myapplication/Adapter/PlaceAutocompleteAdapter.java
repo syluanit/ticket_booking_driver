@@ -30,7 +30,9 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.data.DataBuffer;
 import com.google.android.gms.common.data.DataBufferUtils;
+import com.google.android.gms.common.data.Freezable;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.AutocompletePredictionBufferResponse;
@@ -219,11 +221,11 @@ public class PlaceAutocompleteAdapter
         try {
             AutocompletePredictionBufferResponse autocompletePredictions = results.getResult();
 
-            Log.i(TAG, "Query completed. Received " + autocompletePredictions.getCount()
-                    + " predictions.");
+//            Log.i(TAG, "Query completed. Received " + autocompletePredictions.getCount()
+//                    + " predictions.");
 
             // Freeze the results immutable representation that can be stored safely.
-            return DataBufferUtils.freezeAndClose(autocompletePredictions);
+            return DataBufferUtils.freezeAndClose( autocompletePredictions);
         } catch (RuntimeExecutionException e) {
             // If the query did not complete successfully return null
             Toast.makeText(getContext(), "Error contacting API: " + e.toString(),

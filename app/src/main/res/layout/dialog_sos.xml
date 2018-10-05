@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/white_border_20dp"
+    android:padding="10dp">
+
+    <TextView
+        android:padding="5dp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="Thông báo"
+        android:textSize="@dimen/body_text_size_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
+
+    <LinearLayout
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:text="Thông báo SOS của bạn đã được xử lý bởi "
+            android:textSize="@dimen/body_text_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:id="@+id/user_sos1"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="bạn"
+            android:textSize="@dimen/nav_head_text_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <!--<View-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"></View>-->
+
+    <LinearLayout
+        android:background="@drawable/rectangle_gradient"
+        android:padding="5dp"
+        android:weightSum="10"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_weight="5"
+            android:gravity="center"
+            android:id="@+id/accept_dialog_sos1"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="Đồng ý"
+            android:textSize="@dimen/body_text_size_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

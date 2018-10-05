@@ -36,7 +36,8 @@ public class Home extends AppCompatActivity
     NavigationView navigationView;
     ImageView edit_user_info;
     Button btn_SOS;
-
+    public static int tablayout_position = 0;
+    TextView nav_username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +72,12 @@ public class Home extends AppCompatActivity
         title = (TextView) findViewById(R.id.toolbar_title);
         edit_user_info = (ImageView) findViewById(R.id.user_info_edit);
         btn_SOS = (Button) findViewById(R.id.SOS);
+        nav_username = (TextView)findViewById(R.id.nav_username);
 
         HomeViewPagerAdapter homeViewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager());
         homeViewPagerAdapter.addFragment(new Fragment_So_Do_Xe(), "Sơ Đồ Xe");
         homeViewPagerAdapter.addFragment(new Fragment_Ban_Do(), "Bản Đồ");
-        homeViewPagerAdapter.addFragment(new Fragment_Driver_Map(), "Tài xế chỉ đường");
+        homeViewPagerAdapter.addFragment(new Fragment_Driver_Map(), "Tài xế quanh bạn");
         homeViewPagerAdapter.addFragment(new Fragment_Duong_Di_Moi(), "Đường Đi Mới");
         homeViewPagerAdapter.addFragment(new Fragment_Thong_Tin(), "Thông Tin");
         viewPager.setAdapter(homeViewPagerAdapter);
@@ -91,30 +93,35 @@ public class Home extends AppCompatActivity
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
+                        tablayout_position = 0;
                         title.setText("Tìm chuyến xe");
                         navigationView.getMenu().getItem(1).setChecked(true);
                         btn_SOS.setVisibility(View.VISIBLE);
                         edit_user_info.setVisibility(View.GONE);
                         break;
                     case 1:
+                        tablayout_position = 1;
                         title.setText("Bản đồ");
                         navigationView.getMenu().getItem(2).setChecked(true);
                         btn_SOS.setVisibility(View.VISIBLE);
                         edit_user_info.setVisibility(View.GONE);
                         break;
                     case 2:
+                        tablayout_position = 2;
                         navigationView.getMenu().getItem(3).setChecked(true);
                         btn_SOS.setVisibility(View.VISIBLE);
                         edit_user_info.setVisibility(View.GONE);
-                        title.setText("Tài xế chỉ đường");
+                        title.setText("Tài xế quanh bạn");
                         break;
                     case 3:
+                        tablayout_position = 3;
                         navigationView.getMenu().getItem(4).setChecked(true);
                         btn_SOS.setVisibility(View.VISIBLE);
                         edit_user_info.setVisibility(View.GONE);
                         title.setText("Thêm đường đi mới");
                         break;
                     case 4:
+                        tablayout_position = 4;
                         navigationView.getMenu().getItem(5).setChecked(true);
                         title.setText("Thông tin tài xế");
                         btn_SOS.setVisibility(View.GONE);
@@ -215,26 +222,31 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_logout) {
             // Handle the camera action
         } else if (id == R.id.nav_route) {
+            tablayout_position = 0;
             btn_SOS.setVisibility(View.VISIBLE);
             edit_user_info.setVisibility(View.GONE);
             tabLayout.getTabAt(0).select();
             title.setText("Tìm chuyến xe");
         } else if (id == R.id.nav_map) {
+            tablayout_position = 1;
             btn_SOS.setVisibility(View.VISIBLE);
             edit_user_info.setVisibility(View.GONE);
             tabLayout.getTabAt(1).select();
             title.setText("Bản đồ");
         } else if (id == R.id.nav_drivermap) {
+            tablayout_position= 2;
             btn_SOS.setVisibility(View.VISIBLE);
             edit_user_info.setVisibility(View.GONE);
             tabLayout.getTabAt(2).select();
-            title.setText("Tài xế chỉ đường");
+            title.setText("Tài xế quanh bạn");
         } else if (id == R.id.nav_new_road) {
+            tablayout_position = 3;
             btn_SOS.setVisibility(View.VISIBLE);
             edit_user_info.setVisibility(View.GONE);
             tabLayout.getTabAt(3).select();
             title.setText("Thêm đường đi mới");
         } else if (id == R.id.nav_info) {
+            tablayout_position = 4;
             tabLayout.getTabAt(4).select();
             btn_SOS.setVisibility(View.GONE);
             edit_user_info.setVisibility(View.VISIBLE);

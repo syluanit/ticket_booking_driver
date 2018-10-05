@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "29873227872",
+    "firebase_url": "https://ticket-booking-driver.firebaseio.com",
+    "project_id": "ticket-booking-driver",
+    "storage_bucket": "ticket-booking-driver.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29873227872:android:11c2ed3d678f3bd8",
+        "android_client_info": {
+          "package_name": "com.example.syluanit.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "29873227872-5pnin5sh4ukjlnprphou7n0m91u3bo44.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.syluanit.myapplication",
+            "certificate_hash": "f386684aaef08d8cdcc0716f2f9425e120e2bb61"
+          }
+        },
+        {
+          "client_id": "29873227872-hlf78cgeb3vpbtnu18abpk2qh1m02ego.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAimrVqPw32gqqnVo81F89O9SWSMBm_kH4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "29873227872-hlf78cgeb3vpbtnu18abpk2qh1m02ego.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
