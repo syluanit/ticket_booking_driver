@@ -178,6 +178,13 @@ public class Home extends AppCompatActivity
             }
         });
 
+        btn_SOS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigationView.getMenu().getItem(3).setChecked(true);
+                tabLayout.getTabAt(2).select();
+            }
+        });
 
     }
 

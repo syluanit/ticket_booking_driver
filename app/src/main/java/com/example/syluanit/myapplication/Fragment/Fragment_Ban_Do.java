@@ -331,8 +331,10 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: found location!");
                             Location currentlocation = (Location) task.getResult();
-                            moveCamera(new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude())
-                                    , DEFAULT_ZOOM, "My Location");
+                            if (currentlocation != null) {
+                                moveCamera(new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude())
+                                        , DEFAULT_ZOOM, "My Location");
+                            }
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
                             Toast.makeText(getActivity(), "unable to get current location", Toast.LENGTH_SHORT).show();

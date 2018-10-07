@@ -7,24 +7,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -52,6 +53,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,7 +73,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
     View view;
     private MapView mapView;
     private GoogleMap mMap;
-    private String email;
+    private String email,email_SOS;
     private Double lat, lng;
     private Switch SOS;
     private Button btn_user_nearby;
@@ -103,11 +105,9 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
         onlineRef = FirebaseDatabase.getInstance().getReference().child(".info/connected");
         counterRef = FirebaseDatabase.getInstance().getReference("lastOnline");
 
-//        FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        if(mFirebaseUser != null) {
         currentUserRef = FirebaseDatabase.getInstance().getReference("lastOnline").
                 child(FirebaseAuth.getInstance().getCurrentUser().getUid()); //Do what you need to do with the id
-//        }
+
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
@@ -167,36 +167,28 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                     distance(currentUser, friend);
 
                     //add riend maker on map
-                    if (tracking.getSOS() == 0 || tracking.getSOS() == 2) {
+                    if ((tracking.getSos() == 0)  ) {
                         Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(friendLocation)
                                 .title(tracking.getEmail())
 //                                .snippet("Distance" + new DecimalFormat("#.#").format(distance(currentUser, friend)))
                                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_bus_drive)));
-                        markerList.put(tracking.getEmail() + "",marker);
+//                        markerList.put(tracking.getEmail() + "",marker);
                     }
-                    else if (tracking.getSOS() == 1 )
+                    else if ((tracking.getSos() == 1)  )
                     {
                         Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(friendLocation)
                                 .title(tracking.getEmail())
 //                                .snippet("Distance" + new DecimalFormat("#.#").format(distance(currentUser, friend)))
                                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_bus_drive_sos)));
-                        markerList.put(tracking.getEmail() + "", marker);
+//                        Bitmap markerIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.map_bus_drive_sos);
+//                        pulseMarker(markerIcon, marker, 2000);
+//                        markerList.put(tracking.getEmail() + "", marker);
                     }
-//                    else {
-//
-//                    }
 
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),12.0f));
                 }
-
-
-//                LatLng current = new LatLng(lat, lng);
-//                mMap.addMarker(new MarkerOptions().
-//                        position(current).
-//                        title(FirebaseAuth.getInstance().getCurrentUser().getEmail()));
-
             }
 
             @Override
@@ -291,57 +283,87 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        Query user = locations.orderByChild("email").equalTo(marker.getTitle());
-                        user.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                for (final DataSnapshot postsnapshot : dataSnapshot.getChildren()){
-                                    Tracking tracking = postsnapshot.getValue(Tracking.class);
-
-                                if (tracking.getSOS() == 1) {
-                                    final Dialog dialog = new Dialog(getContext());
-                                    dialog.setContentView(R.layout.dialog_turn_sos_off);
-                                    TextView back = (TextView) dialog.findViewById(R.id.back_dialog_sos);
-                                    TextView accept = (TextView) dialog.findViewById(R.id.accept_dialog_sos);
-                                    TextView email = (TextView) dialog.findViewById(R.id.user_sos);
-
-                                    email.setText(tracking.getEmail());
-
-                                    back.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            dialog.cancel();
-                                        }
-                                    });
-
-                                    accept.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            postsnapshot.child("sos").getRef().setValue(2);
-                                            postsnapshot.child("solveUser").getRef()
-                                                    .setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                                            dialog.dismiss();
-                                        }
-                                    });
-
-                                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                                    dialog.show();
-
-                                }
-                            }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
+                            happySOS(marker);
                         return false;
                     }
                 });
 
             }
         }
+    }
+
+    private int i ;
+    private void happySOS( Marker marker) {
+        Query user = locations.orderByChild("email").equalTo(marker.getTitle());
+        i = 0;
+
+        Location mark = new Location("");
+        mark.setLatitude(marker.getPosition().latitude);
+        mark.setLongitude(marker.getPosition().longitude);
+        Location me =  new Location("");
+        me.setLongitude(lng);
+        me.setLatitude(lat);
+        Toast.makeText(getActivity(),"Cách nhau" + me.distanceTo(mark)/1000 + "km", Toast.LENGTH_SHORT).show();
+
+        if (me.distanceTo(mark)/1000 < 0.01){
+            i = 1;
+        }
+//        if (Math.abs(marker.getPosition().latitude - lat) < 0.008 &&
+//                Math.abs(marker.getPosition().longitude - lng ) < 0.008){
+//            i = 1;
+//        }
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (final DataSnapshot postsnapshot : dataSnapshot.getChildren()){
+                    final Tracking tracking1 = postsnapshot.getValue(Tracking.class);
+
+                    if ((tracking1.getSos() == 1)) {
+                        final Dialog dialog = new Dialog(getContext());
+                        dialog.setContentView(R.layout.dialog_turn_sos_off);
+                        TextView back = (TextView) dialog.findViewById(R.id.back_dialog_sos);
+                        TextView accept = (TextView) dialog.findViewById(R.id.accept_dialog_sos);
+                        TextView email = (TextView) dialog.findViewById(R.id.user_sos);
+
+                        email.setText(tracking1.getEmail());
+
+                        back.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.cancel();
+
+                            }
+                        });
+
+                        accept.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if ( i == 1) {
+                                    postsnapshot.child("solveUser").getRef()
+                                            .setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                                    postsnapshot.child("sos").getRef().setValue(2);
+//                                email_SOS = tracking1.getEmail();
+//                                stupidSOS();
+                                }
+                                else {
+                                    Toast.makeText(getActivity(), "Bạn không thể giúp tài xế này tắt SOS", Toast.LENGTH_SHORT).show();
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        dialog.show();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void getDeviceLocation() {
@@ -413,11 +435,36 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation !=  null)
         {
-            locations.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .setValue(new Tracking(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                            FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                            String.valueOf(mLastLocation.getLatitude()),
-                            String.valueOf(mLastLocation.getLongitude()),0));
+            if (locations != null) {
+                Query set_SOS = locations.orderByChild("sos").equalTo(1);
+                set_SOS.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+                            Tracking tracking = postSnapShot.getValue(Tracking.class);
+                            if (tracking != null && tracking.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
+                                SOS.setChecked(true);
+                            }
+                            else {
+                                locations.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .setValue(new Tracking(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                                                FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                                String.valueOf(mLastLocation.getLatitude()),
+                                                String.valueOf(mLastLocation.getLongitude()), 0));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+//            if (!SOS.isChecked()) {
+//
+//            }
         }
         else
         {
@@ -458,6 +505,8 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
         return true;
     }
 
+
+    private Dialog dialog;
     private void setupSystem() {
         onlineRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -477,52 +526,36 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
             }
         });
 
-        Query set_SOS = locations.orderByChild("sos").equalTo(1);
-        set_SOS.addValueEventListener(new ValueEventListener() {
+
+        locations.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapShot:dataSnapshot.getChildren()){
                     Tracking tracking = postSnapShot.getValue(Tracking.class);
-                    if (tracking.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
-                        SOS.setChecked(true);
-                    }
-                    }
-                }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        Query SOS_query = locations.orderByChild("sos").equalTo(2);
-        SOS_query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapShot:dataSnapshot.getChildren()){
-                    Tracking tracking = postSnapShot.getValue(Tracking.class);
-                    if (tracking.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){
+                    if (tracking != null && tracking.getSos() == 2 &&  tracking.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){
                         postSnapShot.child("sos").getRef().setValue(0);
                         SOS.setChecked(false);
-                        final Dialog dialog = new Dialog(getContext());
-                        dialog.setContentView(R.layout.dialog_sos);
-                        TextView accept = (TextView) dialog.findViewById(R.id.accept_dialog_sos1);
-                        TextView email = (TextView) dialog.findViewById(R.id.user_sos1);
+                        if (dialog != null && dialog.isShowing()) {
+                            return;
+                        }
+                        else {
+                            dialog = new Dialog(getContext());
+                            dialog.setContentView(R.layout.dialog_sos);
+                            TextView accept = (TextView) dialog.findViewById(R.id.accept_dialog_sos1);
+                            TextView email = (TextView) dialog.findViewById(R.id.user_sos1);
 
-                        email.setText(tracking.getSolveUser());
+                            email.setText(tracking.getSolveUser());
 
-                        accept.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.cancel();
+                            accept.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.cancel();
+                                }
+                            });
+                            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                            dialog.show();
 
-                            }
-                        });
-
-                        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                        dialog.show();
-                        break;
-
+                        }
                     }
                 }
             }
@@ -541,10 +574,16 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                     Log.d("LOG", "onDataChange: " + user.getEmail() + "is " + user.getStatus());
 
                     if (!user.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail()) && mLastLocation!=null){
+
+                        email = user.getEmail();
+                    }
+                    if (user.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())&& mLastLocation!=null){
                         lat = mLastLocation.getLatitude();
                         lng = mLastLocation.getLongitude();
-                        email = user.getEmail();}
+                    }
+
                 }
+
             }
 
             @Override
@@ -650,4 +689,26 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
         return deg * Math.PI /180;
     }
 
+    private void pulseMarker(final Bitmap markerIcon, final Marker marker, final long onePulseDuration) {
+        final Handler handler = new Handler();
+        final long startTime = System.currentTimeMillis();
+
+        final Interpolator interpolator = new CycleInterpolator(1f);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = System.currentTimeMillis() - startTime;
+                float t = interpolator.getInterpolation((float) elapsed / onePulseDuration);
+                marker.setIcon(BitmapDescriptorFactory.fromBitmap(scaleBitmap(markerIcon, 1f + 0.05f * t)));
+                handler.postDelayed(this, 16);
+            }
+        });
+    }
+
+    public Bitmap scaleBitmap(Bitmap bitmap, float scaleFactor) {
+        final int sizeX = Math.round(bitmap.getWidth() * scaleFactor);
+        final int sizeY = Math.round(bitmap.getHeight() * scaleFactor);
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(bitmap, sizeX, sizeY, false);
+        return bitmapResized;
+    }
 }

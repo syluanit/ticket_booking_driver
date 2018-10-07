@@ -2,7 +2,7 @@ package com.example.syluanit.myapplication.Model;
 
 public class Tracking    {
     private String email,  uid, lat, lng, solveUser;
-    private int SOS;
+    private int sos;
 
     public Tracking() {
     }
@@ -14,12 +14,12 @@ public class Tracking    {
 //        this.lng = lng;
 //    }
 
-    public Tracking(String email, String uid, String lat, String lng, int SOS) {
+    public Tracking(String email, String uid, String lat, String lng, int sos) {
         this.email = email;
         this.uid = uid;
         this.lat = lat;
         this.lng = lng;
-        this.SOS = SOS;
+        this.sos = sos;
     }
 
     public String getSolveUser() {
@@ -30,12 +30,12 @@ public class Tracking    {
         this.solveUser = solveUser;
     }
 
-    public int getSOS() {
-        return SOS;
+    public int getSos() {
+        return sos;
     }
 
-    public void setSOS(int SOS) {
-        this.SOS = SOS;
+    public void setSos(int sos) {
+        this.sos = sos;
     }
 
     public String getEmail() {

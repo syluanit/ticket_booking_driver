@@ -53,7 +53,7 @@ public class DirectionFinder {
         //Output format
         String output = "json";
         //Create url to request
-        String url = "http://maps.googleapis.com/maps/api/directions/" + output + "?" + param;
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + param;
         return url;
     }
 
