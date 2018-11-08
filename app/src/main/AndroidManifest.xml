@@ -9,10 +9,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_app_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -33,7 +32,7 @@
         </activity>
         <activity android:name=".Activity.Home" />
         <activity android:name=".Activity.Chon_Dia_Diem" />
-        <activity android:name=".Activity.Ghe_Ngoi_Activity" />
+        <activity android:name=".Activity.So_Do_Xe_Activity" />
         <!-- <activity -->
         <!-- android:name=".Home" -->
         <!-- android:label="@string/title_activity_home" -->
@@ -41,7 +40,10 @@
         <activity android:name=".Activity.EditInfoForm" />
         <activity android:name=".Activity.ChangePasswordForm" />
         <activity android:name=".Activity.EditTicketForm" />
-        <activity android:name=".Activity.SignIn"></activity>
+        <activity android:name=".Activity.SignIn" />
+        <activity android:name=".Activity.Sign_Up_Activity" />
+        <activity android:name=".Activity.RouteActivity" />
+        <activity android:name=".Activity.PhoneChecking"></activity>
     </application>
 
 </manifest>

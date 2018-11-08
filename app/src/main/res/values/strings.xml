@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">AWE Driver</string>
     <string name="map_api_key">AIzaSyAysTgSHZsHoSjlMUfc1NS8-OcSedTYi3o</string>
+    <!--<string name="map_api_key">AIzaSyCApNe2z5Cbs7BQ39_UOONmzvsODbOo9yU</string>-->
     <string name="title_activity_home">Home</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

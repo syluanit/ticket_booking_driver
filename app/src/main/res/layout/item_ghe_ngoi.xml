@@ -10,17 +10,17 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/seat"
-            android:layout_width="50dp"
-            android:layout_height="50dp" >
+            android:layout_width="40dp"
+            android:layout_height="40dp" >
         </ImageView>
 
         <TextView
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:text="1"
-            android:textSize="@dimen/body_text_size"
+            android:textSize="14sp"
             android:id="@+id/seatposition"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>

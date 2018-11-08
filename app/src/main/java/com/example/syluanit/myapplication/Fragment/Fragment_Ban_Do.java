@@ -1,7 +1,6 @@
 package com.example.syluanit.myapplication.Fragment;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -9,68 +8,53 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.syluanit.myapplication.Activity.Home;
-import com.example.syluanit.myapplication.Activity.MainActivity;
+import com.directions.route.RouteException;
+import com.directions.route.RoutingListener;
 import com.example.syluanit.myapplication.Adapter.PlaceAutocompleteAdapter;
 import com.example.syluanit.myapplication.Interface.DirectionFinderListener;
 import com.example.syluanit.myapplication.Model.Route;
+import com.example.syluanit.myapplication.Model.RouteTicket;
 import com.example.syluanit.myapplication.R;
 import com.example.syluanit.myapplication.Service.DirectionFinder;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.GoogleApi;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.PlaceBufferResponse;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CustomCap;
 import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.JointType;
@@ -81,7 +65,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.RoundCap;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -93,7 +76,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
-        DirectionFinderListener {
+        DirectionFinderListener,
+        RoutingListener {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -201,8 +185,24 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
             tvDuration.setText("");
         }
 
+        LatLng start = new LatLng(10.8051568, 106.7124921);
+        LatLng waypoint= new LatLng(18.01455, -77.499333);
+        LatLng end = new LatLng(10.8051568, 107.7124921);
+
+//        moveCamera(start,DEFAULT_ZOOM,"");
+
+//        Routing routing = new Routing.Builder()
+//                .travelMode(Routing.TravelMode.WALKING)
+//                .withListener(this)
+//                .waypoints(start, end)
+//                .build();
+//        routing.execute();
+
+
+
         return view;
     }
+
 
 //    @Override
 //    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -550,5 +550,26 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
             polylinePaths.add(map.addPolyline(polylineOptions));
 
         }
+    }
+
+    @Override
+    public void onRoutingFailure(RouteException e) {
+        Log.v("AAA",e.toString());
+//        Toast.makeText(getActivity(), "Ngu", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRoutingStart() {
+
+    }
+
+    @Override
+    public void onRoutingSuccess(ArrayList<com.directions.route.Route> arrayList, int i) {
+        Toast.makeText(getActivity(), "khôn", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRoutingCancelled() {
+        Log.i("AAA", "Routing was cancelled.");
     }
 }

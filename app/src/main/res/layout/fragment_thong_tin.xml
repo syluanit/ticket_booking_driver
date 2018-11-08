@@ -17,134 +17,144 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
 
-            <LinearLayout
-                android:layout_below="@+id/user_face"
-                android:layout_marginTop="20dp"
+            <android.support.v7.widget.RecyclerView
+                android:layout_margin="10dp"
+                android:padding="10dp"
                 android:background="@drawable/white_border"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:orientation="vertical"
+                android:id="@+id/rv_ticketInfo"
+                android:layout_below="@+id/user_face"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_margin="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Họ và tên:"
-                    android:gravity="center|left"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/body_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:background="@color/grey"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"></View>
+            </android.support.v7.widget.RecyclerView>
 
-                <TextView
-                    android:layout_margin="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Email:"
-                    android:gravity="center|left"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/body_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:background="@color/grey"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"></View>
+            <!--<LinearLayout-->
+                <!--android:layout_below="@+id/user_face"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:background="@drawable/white_border"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<TextView-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="Họ và tên:"-->
+                    <!--android:gravity="center|left"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/body_text_size"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content" />-->
+                <!--<View-->
+                    <!--android:background="@color/grey"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"></View>-->
 
-                <TextView
-                    android:layout_margin="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Điện thoại:"
-                    android:gravity="center|left"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/body_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp" />
-                <View
-                    android:background="@color/grey"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"></View>
+                <!--<TextView-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="Email:"-->
+                    <!--android:gravity="center|left"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/body_text_size"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content" />-->
+                <!--<View-->
+                    <!--android:background="@color/grey"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"></View>-->
 
-                <TextView
-                    android:layout_margin="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="CMND:"
-                    android:gravity="center|left"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/body_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp" />
-                <View
-                    android:background="@color/grey"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"></View>
+                <!--<TextView-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="Điện thoại:"-->
+                    <!--android:gravity="center|left"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/body_text_size"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="25dp" />-->
+                <!--<View-->
+                    <!--android:background="@color/grey"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"></View>-->
 
-                <TextView
-                    android:layout_margin="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Địa chỉ:"
-                    android:gravity="center|left"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/body_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp" />
-                <View
-                    android:background="@color/grey"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"></View>
+                <!--<TextView-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="CMND:"-->
+                    <!--android:gravity="center|left"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/body_text_size"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="25dp" />-->
+                <!--<View-->
+                    <!--android:background="@color/grey"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"></View>-->
 
-                <TextView
-                    android:layout_margin="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Quận/huyện:"
-                    android:gravity="center|left"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/body_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp" />
-                <View
-                    android:background="@color/grey"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"></View>
+                <!--<TextView-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="Địa chỉ:"-->
+                    <!--android:gravity="center|left"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/body_text_size"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="25dp" />-->
+                <!--<View-->
+                    <!--android:background="@color/grey"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"></View>-->
 
-                <TextView
-                    android:layout_margin="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Tỉnh/thành phố:"
-                    android:gravity="center|left"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/body_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp" />
-                <View
-                    android:background="@color/grey"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"></View>
+                <!--<TextView-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="Quận/huyện:"-->
+                    <!--android:gravity="center|left"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/body_text_size"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="25dp" />-->
+                <!--<View-->
+                    <!--android:background="@color/grey"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"></View>-->
 
-            </LinearLayout>
+                <!--<TextView-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="Tỉnh/thành phố:"-->
+                    <!--android:gravity="center|left"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="@dimen/body_text_size"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="25dp" />-->
+                <!--<View-->
+                    <!--android:background="@color/grey"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"></View>-->
 
-            <Button
-                android:textColor="@color/white"
-                android:padding="15dp"
-                android:textSize="@dimen/nav_head_text_size"
-                android:id="@+id/signout"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/rectangle_gradient"
-                android:text="đăng xuất"
-                android:layout_marginBottom="20dp"
-                android:layout_alignParentBottom="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <!--</LinearLayout>-->
+
+            <!--<Button-->
+                <!--android:textColor="@color/white"-->
+                <!--android:padding="15dp"-->
+                <!--android:textSize="@dimen/nav_head_text_size"-->
+                <!--android:id="@+id/signout"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:background="@drawable/rectangle_gradient"-->
+                <!--android:text="đăng xuất"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
 
         </RelativeLayout>
 

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarLayoutTimeList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_height">
+
+            <ImageView
+                android:padding="8dp"
+                android:id="@+id/sign_up_back_pressed"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_navigate_before_black_24dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <android.support.v7.widget.Toolbar
+                android:textAlignment="center"
+                android:gravity="center"
+                android:id="@+id/toolbarSearch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nav_height"
+                android:background="?attr/colorPrimary" >
+                <TextView
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/nav_header_color"
+                    android:textSize="@dimen/nav_head_text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ĐĂNG KÝ TÀI KHOẢN"
+                    android:layout_gravity="center"
+                    android:id="@+id/toolbar_title" />
+            </android.support.v7.widget.Toolbar>
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/username"
+                android:hint="Email đăng nhập"
+                android:textSize="@dimen/body_text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:inputType="textPassword"
+                android:id="@+id/passWord"
+                android:hint="Mật khẩu"
+                android:textSize="@dimen/body_text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:inputType="textPassword"
+                android:id="@+id/repassWord"
+                android:hint="Nhập lại mật khẩu"
+                android:textSize="@dimen/body_text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:textSize="@dimen/body_text_size"
+                    android:hint="Họ tên"
+                    android:id="@+id/name_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/dob_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ngày sinh"
+                    android:textSize="@dimen/body_text_size" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:background="@drawable/primary_border"
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_loaighe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:text="Giới tính"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/body_text_size"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:orientation="horizontal"
+                    android:id="@+id/radioGroupSeat_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/radioButtonSeatMen_signup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="10dp"
+                        android:text="Nam"
+                        android:textSize="@dimen/body_text_size" />
+
+                    <RadioButton
+                        android:checked="true"
+                        android:id="@+id/radioButtonWomen_signup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nữ"
+                        android:textSize="@dimen/body_text_size" />
+                </RadioGroup>
+            </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Số điện thoại"
+                android:textSize="@dimen/body_text_size" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Địa chỉ"
+                android:textSize="@dimen/body_text_size" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:textSize="@dimen/body_text_size"
+            android:textColor="@color/white"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rectangle_gradient"
+            android:text="Đăng Ký"
+            android:id="@+id/signUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+</LinearLayout>

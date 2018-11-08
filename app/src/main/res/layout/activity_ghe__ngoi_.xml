@@ -42,8 +42,17 @@
         </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/noRoute"
+        android:textSize="@dimen/body_text_size_medium"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="Không tìm thấy chuyến xe nào!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
+    <LinearLayout
         android:id="@+id/layout_giuong_nam"
         android:orientation="vertical"
         android:layout_weight="1"
@@ -83,18 +92,18 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:layout_margin="5dp"
-            android:padding="5dp"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:background="@drawable/rectangle_gradient"
-            android:gravity="center"
-            android:textSize="@dimen/body_text_size"
-            android:text="Chọn ghế ngồi"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--<TextView-->
+            <!--android:layout_margin="5dp"-->
+            <!--android:padding="5dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:textStyle="bold"-->
+            <!--android:background="@drawable/rectangle_gradient"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="@dimen/body_text_size"-->
+            <!--android:text="Sơ đô ghế ngồi"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
 
         <android.support.v7.widget.RecyclerView
@@ -109,6 +118,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout

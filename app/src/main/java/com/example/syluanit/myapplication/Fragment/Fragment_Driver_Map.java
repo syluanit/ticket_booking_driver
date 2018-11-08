@@ -79,7 +79,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
     private Button btn_user_nearby;
     private HashMap markerList;
     //irebase
-    DatabaseReference onlineRef, currentUserRef, counterRef, locations;
+    DatabaseReference onlineRef, currentUserRef, counterRef, locations, currentLocations;
 
     //Location
     private static final int MY_PERMISSION_REQUEST_CODE = 7171;
@@ -102,12 +102,14 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
 
         //irebase
         locations = FirebaseDatabase.getInstance().getReference("Locations");
+//        currentLocations = FirebaseDatabase.getInstance().getReference("Locations")
+//        .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
         onlineRef = FirebaseDatabase.getInstance().getReference().child(".info/connected");
         counterRef = FirebaseDatabase.getInstance().getReference("lastOnline");
 
         currentUserRef = FirebaseDatabase.getInstance().getReference("lastOnline").
                 child(FirebaseAuth.getInstance().getCurrentUser().getUid()); //Do what you need to do with the id
-
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
@@ -211,7 +213,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
             network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         } catch(Exception ex) {}
 
-
+        //check and ask phor gps and network permissions
         if(!gps_enabled && !network_enabled) {
             // notify user
             AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
@@ -222,7 +224,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                     // TODO Auto-generated method stub
                     Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     getContext().startActivity(myIntent);
-                    //get gps
+                                    //get gps
 
                 }
             });
@@ -273,6 +275,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                 btn_user_nearby.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         if (!TextUtils.isEmpty(email))
                         {
                             loadLocationThisUser(email);
@@ -303,15 +306,19 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
         Location me =  new Location("");
         me.setLongitude(lng);
         me.setLatitude(lat);
-        Toast.makeText(getActivity(),"Cách nhau" + me.distanceTo(mark)/1000 + "km", Toast.LENGTH_SHORT).show();
-
+//        Toast.makeText(getActivity(),"Cách nhau" + me.distanceTo(mark)/1000 + "km", Toast.LENGTH_SHORT).show();
+        // get distance using dephault distanceTo method
         if (me.distanceTo(mark)/1000 < 0.01){
             i = 1;
         }
+        //get distance using lat and longitude oph the marker and current lat lng
 //        if (Math.abs(marker.getPosition().latitude - lat) < 0.008 &&
 //                Math.abs(marker.getPosition().longitude - lng ) < 0.008){
 //            i = 1;
 //        }
+
+        // run once
+        //
         user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -339,6 +346,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                             @Override
                             public void onClick(View v) {
                                 if ( i == 1) {
+                                    //set the solveUser on Locations table phirebase
                                     postsnapshot.child("solveUser").getRef()
                                             .setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                                     postsnapshot.child("sos").getRef().setValue(2);
@@ -366,6 +374,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
         });
     }
 
+    // get your current location
     private void getDeviceLocation() {
         Log.d("Drive_Map", "getDeviceLocation: getting the devices current location");
 
@@ -382,6 +391,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                             Location currentlocation = (Location) task.getResult();
                             moveCamera(new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude())
                                     , DEFAULT_ZOOM, "My Location");
+
                         } else {
                             Log.d("Drive_Map", "onComplete: current location is null");
                             Toast.makeText(getActivity(), "unable to get current location", Toast.LENGTH_SHORT).show();
@@ -437,11 +447,15 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
         {
             if (locations != null) {
                 Query set_SOS = locations.orderByChild("sos").equalTo(1);
+                // run just once when get into this phragment
                 set_SOS.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
                             Tracking tracking = postSnapShot.getValue(Tracking.class);
+
+                            // SOS chỉ được tắt khi ngươi đó tự tắt hoặc có ngươi khác tắt giúp
+                            // set SOS status when run app
                             if (tracking != null && tracking.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
                                 SOS.setChecked(true);
                             }
@@ -462,9 +476,6 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                 });
 
             }
-//            if (!SOS.isChecked()) {
-//
-//            }
         }
         else
         {
@@ -507,7 +518,9 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
 
 
     private Dialog dialog;
+
     private void setupSystem() {
+
         onlineRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -516,17 +529,16 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                     //Set online user in list
                     counterRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(new User (FirebaseAuth.getInstance().getCurrentUser().getEmail(),"Online",
-                                    FirebaseAuth.getInstance().getCurrentUser().getEmail()+"77A2-000111"));
+                                    FirebaseAuth.getInstance().getCurrentUser().getEmail()+"77A2-00111"));
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
 
-
+        // trương hợp
         locations.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -574,7 +586,6 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                     Log.d("LOG", "onDataChange: " + user.getEmail() + "is " + user.getStatus());
 
                     if (!user.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail()) && mLastLocation!=null){
-
                         email = user.getEmail();
                     }
                     if (user.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())&& mLastLocation!=null){
@@ -592,22 +603,6 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
             }
         });
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.action_join :
-//                counterRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                        .setValue(new User (FirebaseAuth.getInstance().getCurrentUser().getEmail(),"Online"));
-////                adapter.notifyDataSetChanged();
-//                break;
-//            case R.id.action_logout:
-//                currentUserRef.removeValue();
-////                adapter.notifyDataSetChanged();
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -650,15 +645,10 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
 
     @Override
     public void onStop() {
+        super.onStop();
         if (mGoogleApiClient != null){
             mGoogleApiClient.disconnect();
         }
-//        locations.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                .setValue(new Tracking(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-//                        FirebaseAuth.getInstance().getCurrentUser().getUid(),
-//                        String.valueOf(mLastLocation.getLatitude()),
-//                        String.valueOf(mLastLocation.getLongitude()),0));
-        super.onStop();
     }
 
     @Override
@@ -666,6 +656,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
         super.onResume();
         checkPlayServices();
     }
+
 
     private double distance(Location currentUser, Location friend){
         double theta = currentUser.getLongitude() - friend.getLongitude();

@@ -1,13 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".Activity.Chon_Dia_Diem">
 
+    <RelativeLayout
+        android:id="@+id/layout_place"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_height">
+        <android.support.v7.widget.Toolbar
+            android:background="@color/colorPrimary"
+            android:id="@+id/toolbar_place"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_header_height">
+
+        </android.support.v7.widget.Toolbar>
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:id="@+id/back_pressed"
+            android:src="@drawable/ic_navigate_before_black_24dp"
+            android:layout_width="@dimen/nav_height"
+            android:layout_height="@dimen/nav_height" />
+
+        <TextView
+            android:layout_centerInParent="true"
+            android:textColor="@color/nav_header_color"
+            android:textSize="@dimen/body_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CHỌN ĐỊA ĐIỂM"
+            android:id="@+id/toolbar_title" />
+    </RelativeLayout>
+
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_height"
+        android:id="@+id/search_view">
+    </com.miguelcatalan.materialsearchview.MaterialSearchView>
+
+    <TextView
+        android:id="@+id/noPlace"
+        android:visibility="gone"
+        android:textSize="@dimen/body_text_size_medium"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_below="@id/layout_place"
+        android:text="Không tìm thấy địa điểm nào!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ListView
-        android:id="@+id/lv_dia_diem"
+        android:layout_below="@id/layout_place"
+        android:id="@+id/lv_chon_dia_diem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

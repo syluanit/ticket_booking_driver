@@ -17,9 +17,9 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:textSize="@dimen/body_text_size"
+            android:textSize="13sp"
             android:id="@+id/tv_ma_chuyen_xe"
-            android:text="Nhập mã để tìm chuyến xe"
+            android:text="Nhập mã (không cần nhập thêm thông tin bên dưới)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <LinearLayout
@@ -65,8 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
-            android:textSize="@dimen/body_text_size"
-            android:text="Nhập thông tin để tìm chuyến xe"
+            android:textSize="13sp"
+            android:text="Hoặc nhập thông tin để tìm chuyến xe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/white_border_20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_annoucement"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="THÔNG BÁO"
+        android:textStyle="bold"
+        android:textSize="17dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="Vé hiện tại đã hết hạn!"
+        android:textSize="@dimen/body_text_size_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"/>
+    <TextView
+        android:id="@+id/tv_OK_outday"
+        android:gravity="center"
+        android:text="OK"
+        android:textSize="17dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+</LinearLayout>

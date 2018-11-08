@@ -1,12 +1,11 @@
 package com.example.syluanit.myapplication.Model;
 
+//class use in Drive Map SOS, use store status user
 public class User {
     private String email, status, carNumber;
 
     public User() {
     }
-
-
 
     public User(String email, String status, String carNumber) {
         this.email = email;

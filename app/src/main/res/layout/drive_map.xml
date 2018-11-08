@@ -17,6 +17,14 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+        <!--<Switch-->
+            <!--android:track="@drawable/switch_sos"-->
+            <!--android:theme="@style/Switch"-->
+            <!--android:paddingLeft="5dp"-->
+            <!--android:switchTextAppearance="@style/SwitchTH"-->
+            <!--android:id="@+id/SwitchOnline"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
         <Button
             android:padding="10dp"

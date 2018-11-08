@@ -2,6 +2,7 @@ package com.example.syluanit.myapplication.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -26,6 +28,10 @@ import com.example.syluanit.myapplication.Fragment.Fragment_So_Do_Xe;
 import com.example.syluanit.myapplication.Fragment.Fragment_Thong_Tin;
 import com.example.syluanit.myapplication.Model.CurrentTicket;
 import com.example.syluanit.myapplication.R;
+import com.example.syluanit.myapplication.Service.Database;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,6 +44,8 @@ public class Home extends AppCompatActivity
     Button btn_SOS;
     public static int tablayout_position = 0;
     TextView nav_username;
+    Database database;
+    public static CurrentTicket currentTicket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,9 @@ public class Home extends AppCompatActivity
 //                        .setAction("Action", null).show();
 //            }
 //        });
+        currentTicket = new CurrentTicket();
+
+        database = new Database(this, "driver.sqlite", null, 1);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -186,6 +197,18 @@ public class Home extends AppCompatActivity
             }
         });
 
+        Cursor data = database.getDaTa("SELECT * FROM sqlite_master WHERE name ='User' and type='table'");
+        // checking the table User null? login or not?
+        if (data.getCount() > 0){
+            Cursor currentUserDB = database.getDaTa("Select * from User");
+            while (currentUserDB.moveToNext()) {
+                TextView tv = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_username);
+                tv.setText(currentUserDB.getString(2));
+//                Toast.makeText(this, "Co dữ liệu" + currentUserDB.getString(8), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
     }
 
     @Override
@@ -198,36 +221,46 @@ public class Home extends AppCompatActivity
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-////        getMenuInflater().inflate(R.menu.home, menu);
-//        return true;
-//    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-
-        return super.onOptionsItemSelected(item);
-    }
+    DatabaseReference currentUser;
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(final MenuItem item) {
+
+        currentUser = FirebaseDatabase.getInstance().getReference("lastOnline").
+                child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         // Handle navigation view item clicks here.
         final int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            // Handle the camera action
+
+            currentUser.removeValue();
+
+            final Dialog dialog = new Dialog(Home.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_exit);
+            TextView content = dialog.findViewById(R.id.content);
+            Button btn_exit = dialog.findViewById(R.id.btn_cancel);
+            Button btn_accept = dialog.findViewById(R.id.btn_accept);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            content.setText("Bạn có muốn đăng xuất và thoát ứng dụng?");
+            btn_exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            btn_accept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+                    mFirebaseAuth.signOut();
+                    database.queryData("Drop table IF exists User");
+                    finish();
+                }
+            });
+            dialog.show();
         } else if (id == R.id.nav_route) {
             tablayout_position = 0;
             btn_SOS.setVisibility(View.VISIBLE);
@@ -263,5 +296,10 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }

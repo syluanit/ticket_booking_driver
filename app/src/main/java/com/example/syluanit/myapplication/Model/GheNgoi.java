@@ -1,6 +1,7 @@
 package com.example.syluanit.myapplication.Model;
 
 public class GheNgoi {
+    private String id;
     private int hinhAnh;
     private int Cua;
     private String viTri;
@@ -11,17 +12,20 @@ public class GheNgoi {
         this.viTri = viTri;
     }
 
-    public GheNgoi(int hinhAnh, String viTri, int trangThai) {
-        this.hinhAnh = hinhAnh;
-        this.viTri = viTri;
-        this.trangThai = trangThai;
-    }
-
-    public GheNgoi(int hinhAnh, int cua, String viTri, int trangThai) {
+    public GheNgoi(String id, int hinhAnh, int cua, String viTri, int trangThai) {
+        this.id = id;
         this.hinhAnh = hinhAnh;
         Cua = cua;
         this.viTri = viTri;
         this.trangThai = trangThai;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getCua() {
