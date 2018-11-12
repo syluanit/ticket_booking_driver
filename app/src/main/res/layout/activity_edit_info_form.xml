@@ -62,17 +62,17 @@
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-            <EditText
-                android:textSize="@dimen/body_text_size"
-                android:hint="Email"
-                android:id="@+id/tv_Email_editation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" >-->
+            <!--<EditText-->
+                <!--android:textSize="@dimen/body_text_size"-->
+                <!--android:hint="Email"-->
+                <!--android:id="@+id/tv_Email_editation"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
 
-        </android.support.design.widget.TextInputLayout>
+        <!--</android.support.design.widget.TextInputLayout>-->
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -92,8 +92,74 @@
 
             <EditText
                 android:textSize="@dimen/body_text_size"
-                android:hint="CMND/Hộ chiếu"
-                android:id="@+id/tv_IdCard_editation"
+                android:hint="Địa chỉ"
+                android:id="@+id/tv_Address_editation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/pickDay_editation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ngày sinh"
+                android:textSize="@dimen/body_text_size" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:background="@drawable/primary_border"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_loaighe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:text="Giới tính"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/body_text_size"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:orientation="horizontal"
+                android:id="@+id/radioGroupSeat_editation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/radioButtonSeatMen_editation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:text="Nam"
+                    android:textSize="@dimen/body_text_size" />
+
+                <RadioButton
+                    android:checked="true"
+                    android:id="@+id/radioButtonWomen_editation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nữ"
+                    android:textSize="@dimen/body_text_size" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:textSize="@dimen/body_text_size"
+                android:hint="Chi nhánh"
+                android:id="@+id/tv_branch_editation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
@@ -104,43 +170,23 @@
 
             <EditText
                 android:textSize="@dimen/body_text_size"
-                android:hint="Địa chỉ"
-                android:id="@+id/tv_Address_editation"
+                android:hint="Số bằng lái"
+                android:id="@+id/tv_licence_editation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
 
-        <LinearLayout
-            android:weightSum="2"
-            android:orientation="horizontal"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputLayout
-                android:layout_weight="1"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:textSize="@dimen/body_text_size"
+                android:hint="Ngày làm việc"
+                android:id="@+id/tv_date_starting_editation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <EditText
-                    android:textSize="@dimen/body_text_size"
-                    android:hint="Tỉnh/Thành phố_editation"
-                    android:id="@+id/tv_city"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <EditText
-                    android:textSize="@dimen/body_text_size"
-                    android:hint="Quận/Huyện_editation"
-                    android:id="@+id/tv_district"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:textSize="@dimen/nav_head_text_size"

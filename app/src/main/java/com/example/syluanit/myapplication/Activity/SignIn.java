@@ -50,6 +50,7 @@ public class SignIn extends AppCompatActivity {
     ImageView rotate;
     EditText username, password;
     Database database;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,14 @@ public class SignIn extends AppCompatActivity {
         else {
             //kiểm tra đăng nhập trên MySql trước
            sendUserData(url);
+            dialog = new Dialog(SignIn.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.progressdialog);
+            ImageView iv_rotate = (ImageView) dialog.findViewById(R.id.iv_rotate);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            Animation animationRotate = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_not_reverse);
+            iv_rotate.startAnimation(animationRotate);
+            dialog.show();
         }
     }
 
@@ -113,6 +122,7 @@ public class SignIn extends AppCompatActivity {
                                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
+                                            dialog.cancel();
                                             if (task.isSuccessful()) {
                                                 Intent intent = new Intent(SignIn.this, Home.class);
                                                 startActivity(intent);
@@ -142,10 +152,23 @@ public class SignIn extends AppCompatActivity {
                                                 }
 
                                             } else {
-                                                Toast.makeText(SignIn.this, "Vui lòng kiểm tra tài khoản mật khẩu!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(SignIn.this, "Vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+//                                                FirebaseUser user = mAuth.getCurrentUser();
+//                                                user.updatePassword(password.getText().toString())
+//                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                            @Override
+//                                                            public void onComplete(@NonNull Task<Void> task) {
+//                                                                if (task.isSuccessful()) {
+//
+//                                                                } else {
+//
+//                                                                }
+//                                                            }
+//                                                        });
                                             }
                                         }
                                     });
+                            //automatically sign up when phirebase doesn't have the account
                             mAuth.createUserWithEmailAndPassword(username.getText().toString(), password.getText().toString())
                                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
@@ -167,6 +190,7 @@ public class SignIn extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     } else if (res.equals("wrong")) {
+                        dialog.cancel();
                         Toast.makeText(SignIn.this, "Vui lòng kiểm tra tài khoản mật khẩu!", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {

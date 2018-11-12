@@ -257,6 +257,8 @@ public class Home extends AppCompatActivity
                     FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
                     mFirebaseAuth.signOut();
                     database.queryData("Drop table IF exists User");
+                    Intent intent = new Intent(Home.this, SignIn.class);
+                    startActivity(intent);
                     finish();
                 }
             });

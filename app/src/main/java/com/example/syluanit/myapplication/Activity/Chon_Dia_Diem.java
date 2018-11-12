@@ -1,18 +1,29 @@
 package com.example.syluanit.myapplication.Activity;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.media.Image;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +54,7 @@ public class Chon_Dia_Diem extends AppCompatActivity {
     ImageView iv_back;
     MaterialSearchView searchView;
     String url = "http://192.168.43.218/busmanager/public/gettinh";
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +67,16 @@ public class Chon_Dia_Diem extends AppCompatActivity {
 
         diaDiemArrayList = new ArrayList<>();
 
-
         receiveUserData(url);
+
+        dialog = new Dialog(Chon_Dia_Diem.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.progressdialog);
+        ImageView iv_rotate = (ImageView) dialog.findViewById(R.id.iv_rotate);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        Animation animationRotate = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_not_reverse);
+        iv_rotate.startAnimation(animationRotate);
+        dialog.show();
 
         chon_dia_diem_adapter = new Chon_Dia_Diem_Adapter(this, R.layout.dia_diem_item ,diaDiemArrayList);
         listView.setAdapter(chon_dia_diem_adapter);
@@ -163,6 +183,7 @@ public class Chon_Dia_Diem extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        dialog.dismiss();
                         if (response != null) {
                             noPlace.setVisibility(View.GONE);
                             try {
@@ -190,6 +211,7 @@ public class Chon_Dia_Diem extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                dialog.cancel();
                 noPlace.setVisibility(View.VISIBLE);
                 Log.d("AAA", "onErrorResponse: " + error.toString());
                 Toast.makeText(Chon_Dia_Diem.this, "Vui lòng kiểm tra kết nối mạng", Toast.LENGTH_SHORT).show();
@@ -205,4 +227,5 @@ public class Chon_Dia_Diem extends AppCompatActivity {
         searchView.setMenuItem(item);
         return true;
     }
+
 }

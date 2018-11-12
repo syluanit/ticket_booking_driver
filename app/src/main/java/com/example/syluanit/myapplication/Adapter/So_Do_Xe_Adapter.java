@@ -110,6 +110,7 @@ public class So_Do_Xe_Adapter extends RecyclerView.Adapter<So_Do_Xe_Adapter.View
 //                    gheNgoi.setTrangThai(1);
                     Intent intent = new Intent(context, PhoneChecking.class);
                     intent.putExtra("seatId",gheNgoi.getId());
+                    intent.putExtra("position",position);
                     context.startActivity(intent);
                 } else {
                     // ghế chưa đặt click hiện ghế đang trống

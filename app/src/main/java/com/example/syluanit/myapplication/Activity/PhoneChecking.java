@@ -52,6 +52,7 @@ public class PhoneChecking extends AppCompatActivity {
 
         Intent intent = getIntent();
         final String seatId = intent.getStringExtra("seatId");
+        final int position = intent.getIntExtra("position", 0);
 
         btn_phoneChecking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,13 +64,13 @@ public class PhoneChecking extends AppCompatActivity {
                     Toast.makeText(PhoneChecking.this, "Vui lòng nhập đúng số điện thoại", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    sendData(url, seatId);
+                    sendData(url, seatId, position);
                 }
             }
         });
     }
 
-    private void sendData(String url, final String seatId){
+    private void sendData(String url, final String seatId, final int position){
 
         final RequestQueue requestQueue = Volley.newRequestQueue(PhoneChecking.this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -92,6 +93,8 @@ public class PhoneChecking extends AppCompatActivity {
                                 tv_annoucement.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        So_Do_Xe_Activity.gheNgoiArrayList.get(position).setTrangThai(1);
+                                        So_Do_Xe_Activity.adapter.notifyDataSetChanged();
                                         dialog.cancel();
                                     }
                                 });
@@ -117,6 +120,7 @@ public class PhoneChecking extends AppCompatActivity {
                                 Intent intent = new Intent(PhoneChecking.this, EditTicketForm.class);
                                 intent.putExtra("phone",tv_phoneChecking.getText().toString());
                                 intent.putExtra("seatId", seatId);
+                                intent.putExtra("position", position);
                                 startActivity(intent);
                             }
                         } catch (JSONException e) {

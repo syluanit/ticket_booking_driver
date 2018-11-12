@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class So_Do_Xe_Activity extends AppCompatActivity {
 
-    public ArrayList<GheNgoi> gheNgoiArrayList;
+    public static ArrayList<GheNgoi> gheNgoiArrayList;
     LinearLayout giuong, ghe;
     ImageView back;
     public static So_Do_Xe_Adapter adapter;
@@ -112,6 +112,10 @@ public class So_Do_Xe_Activity extends AppCompatActivity {
                                 }
                                 else if (jsonObjectTicket.getString("Trạng_thái").equals("0")) {
                                     gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 0));
+                                    j++;
+                                }
+                                else {
+                                    gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 1));
                                     j++;
                                 }
                             }

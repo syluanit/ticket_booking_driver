@@ -94,6 +94,7 @@ public class EditTicketForm extends AppCompatActivity {
         Intent intent = getIntent();
         final String phone = intent.getStringExtra("phone");
         final String seatId = intent.getStringExtra("seatId");
+        final int position = intent.getIntExtra("position", 0);
 
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +110,7 @@ public class EditTicketForm extends AppCompatActivity {
                 }
                 else {
 
-                    sendUserData(url, phone, seatId);
+                    sendUserData(url, phone, seatId, position);
 
                 }
             }
@@ -155,7 +156,7 @@ public class EditTicketForm extends AppCompatActivity {
     }
 
     //put parameters
-    private void sendUserData(String url, final String phone, final String seatId){
+    private void sendUserData(String url, final String phone, final String seatId, final int position){
 
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -178,6 +179,8 @@ public class EditTicketForm extends AppCompatActivity {
                                 tv_annoucement.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        So_Do_Xe_Activity.gheNgoiArrayList.get(position).setTrangThai(1);
+                                        So_Do_Xe_Activity.adapter.notifyDataSetChanged();
                                         dialog.cancel();
                                     }
                                 });

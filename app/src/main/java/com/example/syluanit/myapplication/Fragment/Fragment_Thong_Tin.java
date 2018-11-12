@@ -78,6 +78,11 @@ public class Fragment_Thong_Tin extends Fragment {
                 Collections.reverse(s1);
                 doB = TextUtils.join("-", s1);
 
+                s = date_Starting.split("-");
+                s1 = Arrays.asList(s);
+                Collections.reverse(s1);
+                date_Starting = TextUtils.join("-", s1);
+
                 if (username.equals("null")) {
                     username = "";
                 }
@@ -104,7 +109,7 @@ public class Fragment_Thong_Tin extends Fragment {
 //                ticketInfoArrayList.add(new TicketInfo("Username", email));
                 ticketInfoArrayList.add(new TicketInfo("Chi nhánh", branch));
                 ticketInfoArrayList.add(new TicketInfo("Số bằng lái", licence));
-                ticketInfoArrayList.add(new TicketInfo("Ngày làm việc", doB));
+                ticketInfoArrayList.add(new TicketInfo("Ngày làm việc", date_Starting));
 //                ticketInfoArrayList.add(new TicketInfo("Giới tính", gender));
 
             }
