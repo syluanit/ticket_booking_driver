@@ -109,6 +109,7 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("AAA", "onResponse: yeahyeah" + response);
+                dialog.cancel();
                 try {
                     final JSONObject jsonObject = new JSONObject(response);
                     String res = jsonObject.getString("kq");
@@ -122,7 +123,7 @@ public class SignIn extends AppCompatActivity {
                                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
-                                            dialog.cancel();
+
                                             if (task.isSuccessful()) {
                                                 Intent intent = new Intent(SignIn.this, Home.class);
                                                 startActivity(intent);
@@ -190,7 +191,7 @@ public class SignIn extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     } else if (res.equals("wrong")) {
-                        dialog.cancel();
+
                         Toast.makeText(SignIn.this, "Vui lòng kiểm tra tài khoản mật khẩu!", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
@@ -202,6 +203,7 @@ public class SignIn extends AppCompatActivity {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        dialog.cancel();
                         Toast.makeText(SignIn.this, "Vui lòng kiểm tra kết nối sau đó thử lại!", Toast.LENGTH_SHORT).show();
                         Log.d("AAA", "onErrorResponse: " + error.toString());
                     }

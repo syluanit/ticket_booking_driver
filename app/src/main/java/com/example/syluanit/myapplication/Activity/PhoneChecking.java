@@ -23,6 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.syluanit.myapplication.Adapter.Ticket_Info_Adapter;
+import com.example.syluanit.myapplication.Fragment.Fragment_Tang_Duoi;
+import com.example.syluanit.myapplication.Fragment.Fragment_Tang_Tren;
 import com.example.syluanit.myapplication.Model.TicketInfo;
 import com.example.syluanit.myapplication.R;
 
@@ -93,8 +95,15 @@ public class PhoneChecking extends AppCompatActivity {
                                 tv_annoucement.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        So_Do_Xe_Activity.gheNgoiArrayList.get(position).setTrangThai(1);
-                                        So_Do_Xe_Activity.adapter.notifyDataSetChanged();
+                                        if (Home.currentTicket.getTypeSeat() == 1 ) {
+                                            Fragment_Tang_Tren.gheNgoiArrayList.get(position).setTrangThai(1);
+                                            Fragment_Tang_Tren.adapter.notifyDataSetChanged();
+                                            Fragment_Tang_Duoi.gheNgoiArrayList.get(position).setTrangThai(1);
+                                            Fragment_Tang_Duoi.adapter.notifyDataSetChanged();
+                                        }else {
+                                            So_Do_Xe_Activity.gheNgoiArrayList.get(position).setTrangThai(1);
+                                            So_Do_Xe_Activity.adapter.notifyDataSetChanged();
+                                        }
                                         dialog.cancel();
                                     }
                                 });

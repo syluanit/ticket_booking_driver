@@ -13,6 +13,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 
 import com.directions.route.RouteException;
 import com.directions.route.RoutingListener;
+import com.example.syluanit.myapplication.Activity.Home;
 import com.example.syluanit.myapplication.Adapter.PlaceAutocompleteAdapter;
 import com.example.syluanit.myapplication.Interface.DirectionFinderListener;
 import com.example.syluanit.myapplication.Model.Route;
@@ -55,6 +57,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.JointType;
@@ -131,7 +134,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
                 }
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(false);
-
+                map.setMyLocationEnabled(false);
                 init();
             }
         }
@@ -166,6 +169,9 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
     private TextView tvDuration;
     private LinearLayout distanceLayout;
 
+    Handler handler;
+    double latitude;
+    double longitude;
 
     @Nullable
     @Override
@@ -198,10 +204,45 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
 //                .build();
 //        routing.execute();
 
+        handler = new Handler();
 
+//        handler.postDelayed(runLocation, 1000);
 
         return view;
     }
+
+    public Runnable runLocation = new Runnable(){
+        @Override
+        public void run() {
+
+            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+
+            try {
+                if (LocationPermissionsGranted) {
+                    final Task location = fusedLocationProviderClient.getLastLocation();
+                    location.addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "onComplete: found location!");
+                                Location currentlocation = (Location) task.getResult();
+                                if (currentlocation != null) {
+                                    latitude = currentlocation.getLatitude();
+                                    longitude = currentlocation.getLongitude();
+                                }
+                            }
+                        }
+                    });
+                }
+            } catch (SecurityException e) {
+                Log.e(TAG, "getDeviceLocation: SecurityException:" + e.getMessage());
+            }
+
+            Toast.makeText(getContext(), "location check" + latitude + longitude, Toast.LENGTH_SHORT).show();
+
+            Fragment_Ban_Do.this.handler.postDelayed(Fragment_Ban_Do.this.runLocation, 5000);
+        }
+    };
 
 
 //    @Override
@@ -333,7 +374,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
                             Location currentlocation = (Location) task.getResult();
                             if (currentlocation != null) {
                                 moveCamera(new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude())
-                                        , DEFAULT_ZOOM, "My Location");
+                                        , DEFAULT_ZOOM, "Vị trí của tôi");
                             }
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
@@ -350,11 +391,18 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
     private void moveCamera(LatLng latLng, float zoom, String title) {
         Log.e(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        if (!(title == "My Location")) {
+        if (!(title == "Vị trí của tôi")) {
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
                     .title(title);
 //                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_location));
+            map.addMarker(options);
+        }
+        else {
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(title)
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pin));
             map.addMarker(options);
         }
     }

@@ -73,7 +73,9 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
     View view;
     private MapView mapView;
     private GoogleMap mMap;
-    private String email,email_SOS;
+    private String email_SOS;
+//    private String email;
+    private List<String> email ;
     private Double lat, lng;
     private Switch SOS;
     private Button btn_user_nearby;
@@ -140,64 +142,140 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
             mapView.onResume();
             mapView.getMapAsync(this);
         }
+        email  = new ArrayList<String>();
+
         return view;
     }
 
-    private void loadLocationThisUser(String email) {
-        Query user_location = locations.orderByChild("email").equalTo(email);
+//    press nearby button
+//    private void loadLocationThisUser(String email) {
+//        Query user_location = locations.orderByChild("email").equalTo(email);
+//
+//        user_location.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot postsnapshot:dataSnapshot.getChildren())
+//                {
+//                    mMap.clear();
+//                    markerList = new HashMap();
+//                    Tracking tracking = postsnapshot.getValue(Tracking.class);
+//
+//                    LatLng friendLocation = new LatLng(Double.parseDouble(tracking.getLat()),
+//                            Double.parseDouble(tracking.getLng()));
+//
+//                    Location currentUser =  new Location("");
+//                    currentUser.setLatitude(lat);
+//                    currentUser.setLongitude(lng);
+//
+//                    Location friend =  new Location("");
+//                    friend.setLatitude(Double.parseDouble(tracking.getLat()));
+//                    friend.setLongitude(Double.parseDouble(tracking.getLng()));
+//
+////                    distance(currentUser, friend);
+//
+//                    //add riend maker on map
+//                    if ((tracking.getSos() == 0)  ) {
+//                        Marker marker = mMap.addMarker(new MarkerOptions()
+//                                .position(friendLocation)
+//                                .title(tracking.getEmail())
+////                                .snippet("Distance" + new DecimalFormat("#.#").format(distance(currentUser, friend)))
+//                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_bus_drive)));
+////                        markerList.put(tracking.getEmail() + "",marker);
+//                    }
+//                    else if ((tracking.getSos() == 1)  )
+//                    {
+//                        Marker marker = mMap.addMarker(new MarkerOptions()
+//                                .position(friendLocation)
+//                                .title(tracking.getEmail())
+////                                .snippet("Distance" + new DecimalFormat("#.#").format(distance(currentUser, friend)))
+//                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_bus_drive_sos)));
+////                        Bitmap markerIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.map_bus_drive_sos);
+////                        pulseMarker(markerIcon, marker, 2000);
+////                        markerList.put(tracking.getEmail() + "", marker);
+//                    }
+//
+//                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),12.0f));
+//
+//                    MarkerOptions options = new MarkerOptions()
+//                            .position(new LatLng(lat,lng))
+//                            .title("Vị trí của tôi")
+//                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pin));
+//                    mMap.addMarker(options);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//
+//    }
 
-        user_location.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postsnapshot:dataSnapshot.getChildren())
-                {
-                    mMap.clear();
-                    markerList = new HashMap();
-                    Tracking tracking = postsnapshot.getValue(Tracking.class);
+    private void loadLocationThisUser(List<String> email) {
+        for (String emailchild: email) {
+            Query user_location = locations.orderByChild("email").equalTo(emailchild);
 
-                    LatLng friendLocation = new LatLng(Double.parseDouble(tracking.getLat()),
-                            Double.parseDouble(tracking.getLng()));
+            user_location.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postsnapshot : dataSnapshot.getChildren()) {
+                        mMap.clear();
+                        markerList = new HashMap();
+                        Tracking tracking = postsnapshot.getValue(Tracking.class);
 
-                    Location currentUser =  new Location("");
-                    currentUser.setLatitude(lat);
-                    currentUser.setLongitude(lng);
+                        LatLng friendLocation = new LatLng(Double.parseDouble(tracking.getLat()),
+                                Double.parseDouble(tracking.getLng()));
 
-                    Location friend =  new Location("");
-                    friend.setLatitude(Double.parseDouble(tracking.getLat()));
-                    friend.setLongitude(Double.parseDouble(tracking.getLng()));
+                        Location currentUser = new Location("");
+                        currentUser.setLatitude(lat);
+                        currentUser.setLongitude(lng);
 
-                    distance(currentUser, friend);
+                        Location friend = new Location("");
+                        friend.setLatitude(Double.parseDouble(tracking.getLat()));
+                        friend.setLongitude(Double.parseDouble(tracking.getLng()));
 
-                    //add riend maker on map
-                    if ((tracking.getSos() == 0)  ) {
-                        Marker marker = mMap.addMarker(new MarkerOptions()
-                                .position(friendLocation)
-                                .title(tracking.getEmail())
+//                    distance(currentUser, friend);
+
+                        //add riend maker on map
+                        if ((tracking.getSos() == 0)) {
+                            Marker marker = mMap.addMarker(new MarkerOptions()
+                                    .position(friendLocation)
+                                    .title(tracking.getEmail())
 //                                .snippet("Distance" + new DecimalFormat("#.#").format(distance(currentUser, friend)))
-                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_bus_drive)));
+                                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_bus_drive)));
 //                        markerList.put(tracking.getEmail() + "",marker);
-                    }
-                    else if ((tracking.getSos() == 1)  )
-                    {
-                        Marker marker = mMap.addMarker(new MarkerOptions()
-                                .position(friendLocation)
-                                .title(tracking.getEmail())
+                        } else if ((tracking.getSos() == 1)) {
+                            Marker marker = mMap.addMarker(new MarkerOptions()
+                                    .position(friendLocation)
+                                    .title(tracking.getEmail())
 //                                .snippet("Distance" + new DecimalFormat("#.#").format(distance(currentUser, friend)))
-                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_bus_drive_sos)));
+                                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_bus_drive_sos)));
 //                        Bitmap markerIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.map_bus_drive_sos);
 //                        pulseMarker(markerIcon, marker, 2000);
 //                        markerList.put(tracking.getEmail() + "", marker);
+                        }
+
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 12.0f));
+
+                        MarkerOptions options = new MarkerOptions()
+                                .position(new LatLng(lat, lng))
+                                .title("Vị trí của tôi")
+                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pin));
+                        mMap.addMarker(options);
+
                     }
-
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),12.0f));
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+
+        }
     }
 
     @Override
@@ -249,12 +327,15 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                 }
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mMap.setMyLocationEnabled(false);
 
                 SOS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked)
                         {
+                            //SOS turn on
+                            //set the values node locations phirebase to 1
                             locations.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(new Tracking(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
                                             FirebaseAuth.getInstance().getCurrentUser().getUid(),
@@ -262,7 +343,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                                             String.valueOf(mLastLocation.getLongitude()),1));
                         }
                         else
-                        {
+                        {   //SOS turn oph, set the values node locations to 0
                             locations.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(new Tracking(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
                                             FirebaseAuth.getInstance().getCurrentUser().getUid(),
@@ -275,10 +356,16 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                 btn_user_nearby.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        if (!TextUtils.isEmpty(email))
-                        {
+                        // nearby user email check exist
+//                        if (!TextUtils.isEmpty(email))
+//                        {
+//                            loadLocationThisUser(email);
+//                        }
+                        if (!email.isEmpty()){
                             loadLocationThisUser(email);
+                        }
+                        else {
+                            Toast.makeText(getActivity(), "Không có tài xế nào quanh bạn", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -308,7 +395,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
         me.setLatitude(lat);
 //        Toast.makeText(getActivity(),"Cách nhau" + me.distanceTo(mark)/1000 + "km", Toast.LENGTH_SHORT).show();
         // get distance using dephault distanceTo method
-        if (me.distanceTo(mark)/1000 < 0.01){
+        if (me.distanceTo(mark)/1000 < 0.1 ){ // 100m
             i = 1;
         }
         //get distance using lat and longitude oph the marker and current lat lng
@@ -346,6 +433,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                             @Override
                             public void onClick(View v) {
                                 if ( i == 1) {
+                                    // distance between near enough to turn oph the SOS
                                     //set the solveUser on Locations table phirebase
                                     postsnapshot.child("solveUser").getRef()
                                             .setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
@@ -390,7 +478,7 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                             Log.d("Drive_Map", "onComplete: found location!");
                             Location currentlocation = (Location) task.getResult();
                             moveCamera(new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude())
-                                    , DEFAULT_ZOOM, "My Location");
+                                    , DEFAULT_ZOOM, "Vị trí của tôi");
 
                         } else {
                             Log.d("Drive_Map", "onComplete: current location is null");
@@ -405,16 +493,23 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
     }
 
     private void moveCamera(LatLng latLng, float zoom, String title) {
-        Log.e("Drive map", "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
+        Log.e("", "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        if (!(title == "My Location")) {
+        if (!(title == "Vị trí của tôi")) {
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
                     .title(title);
+//                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_location));
+            mMap.addMarker(options);
+        }
+        else {
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(title)
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pin));
             mMap.addMarker(options);
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -451,21 +546,22 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                 set_SOS.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
-                            Tracking tracking = postSnapShot.getValue(Tracking.class);
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+                                Tracking tracking = postSnapShot.getValue(Tracking.class);
 
-                            // SOS chỉ được tắt khi ngươi đó tự tắt hoặc có ngươi khác tắt giúp
-                            // set SOS status when run app
-                            if (tracking != null && tracking.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
-                                SOS.setChecked(true);
+                                // SOS chỉ được tắt khi ngươi đó tự tắt hoặc có ngươi khác tắt giúp
+                                // set SOS status when run app
+                                if (tracking != null && tracking.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
+                                    SOS.setChecked(true);
+                                }
                             }
-                            else {
-                                locations.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .setValue(new Tracking(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                                                FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                                                String.valueOf(mLastLocation.getLatitude()),
-                                                String.valueOf(mLastLocation.getLongitude()), 0));
-                            }
+                        } else {
+                            locations.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(new Tracking(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                                            FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                            String.valueOf(mLastLocation.getLatitude()),
+                                            String.valueOf(mLastLocation.getLongitude()), 0));
                         }
                     }
 
@@ -538,13 +634,14 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
             }
         });
 
-        // trương hợp
+        // trương hợp sau khi tắt được SOS, nhận diện user có trang thái SOS = 2
         locations.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapShot:dataSnapshot.getChildren()){
                     Tracking tracking = postSnapShot.getValue(Tracking.class);
                     if (tracking != null && tracking.getSos() == 2 &&  tracking.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){
+                        //set value back to 0
                         postSnapShot.child("sos").getRef().setValue(0);
                         SOS.setChecked(false);
                         if (dialog != null && dialog.isShowing()) {
@@ -585,10 +682,13 @@ public class Fragment_Driver_Map extends Fragment implements GoogleApiClient.Con
                     User user = postSnapshot.getValue(User.class);
                     Log.d("LOG", "onDataChange: " + user.getEmail() + "is " + user.getStatus());
 
+                    // email = phriend email
                     if (!user.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail()) && mLastLocation!=null){
-                        email = user.getEmail();
+                        email.add(user.getEmail());
+//                        email = user.getEmail();
                     }
                     if (user.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())&& mLastLocation!=null){
+                        // lat lng here is current location user
                         lat = mLastLocation.getLatitude();
                         lng = mLastLocation.getLongitude();
                     }

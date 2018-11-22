@@ -110,6 +110,7 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
                 }
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(false);
+                map.setMyLocationEnabled(false);
 
 //            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 //                @Override
@@ -334,7 +335,7 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
                             Log.d(TAG, "onComplete: found location!");
                             Location currentlocation = (Location) task.getResult();
                             moveCamera(new LatLng(currentlocation.getLatitude(), currentlocation.getLongitude())
-                                    , DEFAULT_ZOOM, "My Location");
+                                    , DEFAULT_ZOOM, "Vị trí của tôi");
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
                             Toast.makeText(getActivity(), "unable to get current location", Toast.LENGTH_SHORT).show();
@@ -350,10 +351,18 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
     private void moveCamera(LatLng latLng, float zoom, String title) {
         Log.e(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        if (!(title == "My Location")) {
+        if (!(title == "Vị trí của tôi")) {
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
                     .title(title);
+//                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_location));
+            map.addMarker(options);
+        }
+        else {
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(title)
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_pin));
             map.addMarker(options);
         }
     }

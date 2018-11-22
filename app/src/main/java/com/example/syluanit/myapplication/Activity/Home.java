@@ -46,6 +46,7 @@ public class Home extends AppCompatActivity
     TextView nav_username;
     Database database;
     public static CurrentTicket currentTicket;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,7 +209,7 @@ public class Home extends AppCompatActivity
             }
         }
 
-
+        dialog = new Dialog(Home.this);
     }
 
     @Override
@@ -236,7 +237,6 @@ public class Home extends AppCompatActivity
 
             currentUser.removeValue();
 
-            final Dialog dialog = new Dialog(Home.this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dialog_exit);
             TextView content = dialog.findViewById(R.id.content);
@@ -303,5 +303,11 @@ public class Home extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        dialog.dismiss();
+        super.onDestroy();
     }
 }

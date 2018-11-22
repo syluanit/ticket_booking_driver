@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/white_border_20dp"
     >
@@ -12,7 +12,7 @@
         android:textStyle="bold"
         android:gravity="center"
         android:text="Thông báo"
-        android:textSize="@dimen/body_text_size_large"
+        android:textSize="@dimen/body_text_size_medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -50,29 +50,20 @@
 
     </LinearLayout>
 
-    <!--<View-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"></View>-->
-
-    <LinearLayout
-        android:background="@drawable/rectangle_gradient"
-        android:padding="5dp"
-        android:weightSum="10"
-        android:orientation="horizontal"
+    <View
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="1dp"></View>
 
-        <TextView
-            android:layout_weight="5"
-            android:gravity="center"
-            android:id="@+id/accept_dialog_sos1"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:text="Đóng"
-            android:textSize="@dimen/body_text_size_medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+    <TextView
+        android:padding="10dp"
+        android:gravity="center"
+        android:id="@+id/accept_dialog_sos1"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:text="Đóng"
+        android:textSize="@dimen/body_text_size_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

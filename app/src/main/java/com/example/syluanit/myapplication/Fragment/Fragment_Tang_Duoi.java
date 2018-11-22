@@ -25,8 +25,8 @@ import java.util.ArrayList;
 
 public class Fragment_Tang_Duoi extends Fragment {
     View view;
-    private ArrayList<GheNgoi> gheNgoiArrayList;
-    So_Do_Xe_Adapter adapter;
+    public static ArrayList<GheNgoi> gheNgoiArrayList;
+    public static So_Do_Xe_Adapter adapter;
 
     @Nullable
     @Override
@@ -67,7 +67,7 @@ public class Fragment_Tang_Duoi extends Fragment {
                         JSONObject jsonObjectTicket = (JSONObject) jsonArray.get(j);
                         String seatId = jsonObjectTicket.getString("Mã");
                         if (jsonObjectTicket.getString("Trạng_thái").equals("1")) {
-                            gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 2));
+                            gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 1));
                             j++;
                         } else if (jsonObjectTicket.getString("Trạng_thái").equals("0")) {
 
@@ -76,6 +76,10 @@ public class Fragment_Tang_Duoi extends Fragment {
                             gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 0));
                             j++;
 //                            }
+                        }
+                        else {
+                            gheNgoiArrayList.add(new GheNgoi(seatId, R.drawable.custom_seat, 0, jsonObjectTicket.getString("Vị_trí_ghế"), 1));
+                            j++;
                         }
                     } else {
                         gheNgoiArrayList.add(new GheNgoi(0, ""));

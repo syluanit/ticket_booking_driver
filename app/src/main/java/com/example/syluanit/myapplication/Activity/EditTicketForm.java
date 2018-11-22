@@ -30,6 +30,7 @@ import com.example.syluanit.myapplication.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -223,7 +224,11 @@ public class EditTicketForm extends AppCompatActivity {
 //                Collections.reverse(s1);
 //                String doB = TextUtils.join("-", s1);
 
-                params.put("name", realname.getText().toString().trim());
+                String ten_khong_dau = Normalizer.normalize(realname.getText().toString(),
+                        Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]","");
+
+                params.put("name", realname.getText().toString());
+                params.put("namekd", ten_khong_dau);
                 params.put("ngaysinh", dob.getText().toString());
                 params.put("gender", gender);
                 params.put("phone", phone);
