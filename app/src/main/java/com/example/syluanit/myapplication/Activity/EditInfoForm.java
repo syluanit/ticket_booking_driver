@@ -42,10 +42,11 @@ public class EditInfoForm extends AppCompatActivity {
     ImageView back;
     Button btn_edit;
     EditText et_name, et_phone, et_address, et_doB, et_branch, et_datestarting, et_licence;
-    String gender = "0";
+    String gender = "2";
     Database database;
     RadioButton men, women;
-    final String url = "http://192.168.43.218/busmanager/public/capnhatDriver";
+    String url;
+//    final String url = "http://192.168.43.218/busmanager/public/capnhatDriver";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class EditInfoForm extends AppCompatActivity {
                         gender = "1";
                         break;
                     case R.id.radioButtonWomen_editation:
-                        gender = "0";
+                        gender = "2";
                         break;
                 }
             }
@@ -131,7 +132,9 @@ public class EditInfoForm extends AppCompatActivity {
                     Toast.makeText(EditInfoForm.this, "Vui lòng kiểm tra số điện thoại!", Toast.LENGTH_LONG).show();
                 }
                 else {
-
+                    String ip = getResources().getString(R.string.ip);
+                    String addressRequest = getResources().getString(R.string.address);
+                    url = ip + addressRequest + "/capnhatDriver";
                     sendUserData(url);
                 }
             }
@@ -301,7 +304,7 @@ public class EditInfoForm extends AppCompatActivity {
                     gender = "1";
                 } else {
                     women.setChecked(true);
-                    gender = "0";
+                    gender = "2";
                 }
                 String[] s = doB.split("-");
                 List<String> s1 = Arrays.asList(s);

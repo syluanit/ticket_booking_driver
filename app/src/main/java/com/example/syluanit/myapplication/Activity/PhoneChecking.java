@@ -42,7 +42,8 @@ public class PhoneChecking extends AppCompatActivity {
 
     Button btn_phoneChecking;
     TextView tv_phoneChecking;
-    String url = "http://192.168.43.218/busmanager/public/checkphoneAndroid";
+    String url;
+//    String url = "http://192.168.43.218/busmanager/public/checkphoneAndroid";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,9 @@ public class PhoneChecking extends AppCompatActivity {
                     Toast.makeText(PhoneChecking.this, "Vui lòng nhập đúng số điện thoại", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    String ip = getResources().getString(R.string.ip);
+                    String address = getResources().getString(R.string.address);
+                    url = ip + address + "/checkphoneAndroid";
                     sendData(url, seatId, position);
                 }
             }
@@ -80,10 +84,10 @@ public class PhoneChecking extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("AAA", "onResponse: yeahyeah" + response.toString());
-//
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String result = jsonObject.getString("kq");
+                            // update successphul
                             if( result.equals("1")){
                                 final Dialog dialog = new Dialog(PhoneChecking.this);
                                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -105,10 +109,12 @@ public class PhoneChecking extends AppCompatActivity {
                                             So_Do_Xe_Activity.adapter.notifyDataSetChanged();
                                         }
                                         dialog.cancel();
+                                        finish();
                                     }
                                 });
                                 dialog.show();
                             }
+                            //update phail
                             else if (result.equals("0")){
                                 final Dialog dialog = new Dialog(PhoneChecking.this);
                                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -124,13 +130,14 @@ public class PhoneChecking extends AppCompatActivity {
                                     }
                                 });
                                 dialog.show();
-                            }
+                            }// move to the next inpho phorm
                             else if (result.equals("2")){
                                 Intent intent = new Intent(PhoneChecking.this, EditTicketForm.class);
                                 intent.putExtra("phone",tv_phoneChecking.getText().toString());
                                 intent.putExtra("seatId", seatId);
                                 intent.putExtra("position", position);
                                 startActivity(intent);
+                                finish();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

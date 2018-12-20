@@ -42,7 +42,9 @@ public class ChangePasswordForm extends AppCompatActivity {
     Button accept;
     ImageView back;
     Database database;
-    final String url = "http://192.168.43.218/busmanager/public/doimatkhauDriver";
+//    final String url = "http://192.168.43.218/busmanager/public/doimatkhauDriver";
+    String url;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,9 @@ public class ChangePasswordForm extends AppCompatActivity {
                         conPass.length() < 6 || conPass.length() > 30 ) {
                     Toast.makeText(ChangePasswordForm.this, "Vui lòng nhập mật khẩu từ 6 đến 30 ký tự!", Toast.LENGTH_SHORT).show();
                 } else if (newPass.equals(conPass)) {
-
+                    String ip = getResources().getString(R.string.ip);
+                    String address = getResources().getString(R.string.address);
+                    url = ip + address + "/doimatkhauDriver";
                     sendUserData(url);
                 } else {
                     Toast.makeText(ChangePasswordForm.this, "Mật khẩu chưa khớp, vui lòng nhập lại!", Toast.LENGTH_SHORT).show();

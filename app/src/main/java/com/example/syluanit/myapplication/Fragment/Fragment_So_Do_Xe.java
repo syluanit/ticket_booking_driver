@@ -46,8 +46,9 @@ public class Fragment_So_Do_Xe extends Fragment {
     Button btn_ticketSearch;
     private RadioGroup radioGroupTypeSeat;
     private String typeSeat;
-    final String url = "http://192.168.43.218/busmanager/public/chuyenxeAndroid";
-    final String urlMa = "http://192.168.43.218/busmanager/public/chonveAndroid";
+//    String url = "http://192.168.43.218/busmanager/public/chuyenxeAndroid";
+//    String urlMa = "http://192.168.43.218/busmanager/public/chonveAndroid";
+    String url, urlMa;
 
     @Nullable
     @Override
@@ -74,6 +75,9 @@ public class Fragment_So_Do_Xe extends Fragment {
 
                 // TODO Checking infomation
                 if (!routeId.equals("")) {
+                    String ip = getResources().getString(R.string.ip);
+                    String address = getResources().getString(R.string.address);
+                    urlMa = ip + address + "/chonveAndroid";
                     sendMaChuyenXe(urlMa);
                 }else{
                 if (from.isEmpty()) {
@@ -83,6 +87,9 @@ public class Fragment_So_Do_Xe extends Fragment {
                 } else if (date.isEmpty()) {
                     Toast.makeText(getActivity(), "Vui lòng chọn ngày đi!", Toast.LENGTH_LONG).show();
                 } else {
+                    String ip = getResources().getString(R.string.ip);
+                    String address = getResources().getString(R.string.address);
+                    url = ip + address + "/chuyenxeAndroid";
                     sendUserData(url);
                 }
                 }
@@ -145,8 +152,7 @@ public class Fragment_So_Do_Xe extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("AAA", "onResponse: yeahyeah");
-//                        Toast.makeText(Home.this, response.toString(), Toast.LENGTH_SHORT).show();
+
                         Log.d("AAA", "onResponse: " + response.toString());
                         Bundle ticket = new Bundle();
                         ticket.putString("ticketJson",response);
@@ -166,7 +172,7 @@ public class Fragment_So_Do_Xe extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<>();
-//                params.put("X-CSRF-Token", accessToken);
+
                 params.put("Noidi", et_from.getText().toString().trim());
                 params.put("Noiden", et_to.getText().toString().trim());
                 params.put("Loaighe", typeSeat);
@@ -205,7 +211,7 @@ public class Fragment_So_Do_Xe extends Fragment {
                 pickDay.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, nam, thang , ngay);
-//        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
         datePickerDialog.show();
     }
 
@@ -235,11 +241,6 @@ public class Fragment_So_Do_Xe extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         Log.d("AAA", "onResponse: " + response.toString());
-//                        Bundle ticket = new Bundle();
-//                        ticket.putString("ticketJson",response);
-//                        Intent intent = new Intent(getActivity(), RouteActivity.class);
-//                        intent.putExtras(ticket);
-//                        startActivity(intent);
 
                         Intent i = new Intent(getActivity(), So_Do_Xe_Activity.class);
                         i.putExtra("ticketMap", response);

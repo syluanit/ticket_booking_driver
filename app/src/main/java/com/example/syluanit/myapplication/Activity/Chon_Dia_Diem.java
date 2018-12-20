@@ -53,7 +53,8 @@ public class Chon_Dia_Diem extends AppCompatActivity {
     ArrayList<DiaDiem> diaDiemArrayList;
     ImageView iv_back;
     MaterialSearchView searchView;
-    String url = "http://192.168.43.218/busmanager/public/gettinh";
+//    String url = "http://192.168.43.218/busmanager/public/gettinh";
+    String url;
     Dialog dialog;
 
     @Override
@@ -67,6 +68,9 @@ public class Chon_Dia_Diem extends AppCompatActivity {
 
         diaDiemArrayList = new ArrayList<>();
 
+        String ip = getResources().getString(R.string.ip);
+        String address = getResources().getString(R.string.address);
+        url = ip + address + "/gettinh";
         receiveUserData(url);
 
         dialog = new Dialog(Chon_Dia_Diem.this);

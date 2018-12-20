@@ -43,7 +43,8 @@ import java.util.Map;
 
 public class SignIn extends AppCompatActivity {
 
-    String url = "http://192.168.43.218/busmanager/public/dangnhapDriverAndroid";
+//    String url = "http://192.168.43.218/busmanager/public/dangnhapDriverAndroid";
+    String url;
     FirebaseAuth mAuth;
     TextView   forgetPassword;
     Button login;
@@ -90,7 +91,11 @@ public class SignIn extends AppCompatActivity {
         }
         else {
             //kiểm tra đăng nhập trên MySql trước
-           sendUserData(url);
+            String ip = getResources().getString(R.string.ip);
+            String address = getResources().getString(R.string.address);
+            url = ip + address + "/dangnhapDriverAndroid";
+            sendUserData(url);
+
             dialog = new Dialog(SignIn.this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.progressdialog);
@@ -109,7 +114,7 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("AAA", "onResponse: yeahyeah" + response);
-                dialog.cancel();
+
                 try {
                     final JSONObject jsonObject = new JSONObject(response);
                     String res = jsonObject.getString("kq");
@@ -123,8 +128,9 @@ public class SignIn extends AppCompatActivity {
                                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
-
+                                            dialog.cancel();
                                             if (task.isSuccessful()) {
+
                                                 Intent intent = new Intent(SignIn.this, Home.class);
                                                 startActivity(intent);
                                                 finish();
@@ -154,18 +160,6 @@ public class SignIn extends AppCompatActivity {
 
                                             } else {
                                                 Toast.makeText(SignIn.this, "Vui lòng thử lại!", Toast.LENGTH_SHORT).show();
-//                                                FirebaseUser user = mAuth.getCurrentUser();
-//                                                user.updatePassword(password.getText().toString())
-//                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                                            @Override
-//                                                            public void onComplete(@NonNull Task<Void> task) {
-//                                                                if (task.isSuccessful()) {
-//
-//                                                                } else {
-//
-//                                                                }
-//                                                            }
-//                                                        });
                                             }
                                         }
                                     });
@@ -191,7 +185,7 @@ public class SignIn extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     } else if (res.equals("wrong")) {
-
+                        dialog.cancel();
                         Toast.makeText(SignIn.this, "Vui lòng kiểm tra tài khoản mật khẩu!", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {

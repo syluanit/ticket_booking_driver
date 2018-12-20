@@ -25,6 +25,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.syluanit.myapplication.Fragment.Fragment_Tang_Duoi;
+import com.example.syluanit.myapplication.Fragment.Fragment_Tang_Tren;
 import com.example.syluanit.myapplication.R;
 
 import org.json.JSONException;
@@ -45,7 +47,8 @@ public class EditTicketForm extends AppCompatActivity {
     Button btn_edit;
     EditText realname, dob;
     String gender = "0";
-    String url = "http://192.168.43.218/busmanager/public/dangkyveAndroid";
+    String url;
+//    String url = "http://192.168.43.218/busmanager/public/dangkyveAndroid";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,14 +106,15 @@ public class EditTicketForm extends AppCompatActivity {
                 String name = realname.getText().toString();
                 String doB = dob.getText().toString();
 
-
                 if (name.equals("") || doB.equals("") ) {
                     Toast.makeText(EditTicketForm.this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
                 } else if (!detect_name(name)) {
                     Toast.makeText(EditTicketForm.this, "Vui lòng nhập tên chỉ chứa các ký tự!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-
+                    String ip = getResources().getString(R.string.ip);
+                    String address = getResources().getString(R.string.address);
+                    url = ip + address + "/dangkyveAndroid";
                     sendUserData(url, phone, seatId, position);
 
                 }
@@ -144,7 +148,6 @@ public class EditTicketForm extends AppCompatActivity {
                 dob.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, nam, thang , ngay);
-//        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }
 
@@ -180,9 +183,17 @@ public class EditTicketForm extends AppCompatActivity {
                                 tv_annoucement.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        So_Do_Xe_Activity.gheNgoiArrayList.get(position).setTrangThai(1);
-                                        So_Do_Xe_Activity.adapter.notifyDataSetChanged();
+                                        if (Home.currentTicket.getTypeSeat() == 1 ) {
+                                            Fragment_Tang_Tren.gheNgoiArrayList.get(position).setTrangThai(1);
+                                            Fragment_Tang_Tren.adapter.notifyDataSetChanged();
+                                            Fragment_Tang_Duoi.gheNgoiArrayList.get(position).setTrangThai(1);
+                                            Fragment_Tang_Duoi.adapter.notifyDataSetChanged();
+                                        }else {
+                                            So_Do_Xe_Activity.gheNgoiArrayList.get(position).setTrangThai(1);
+                                            So_Do_Xe_Activity.adapter.notifyDataSetChanged();
+                                        }
                                         dialog.cancel();
+                                        finish();
                                     }
                                 });
                                 dialog.show();
@@ -218,11 +229,6 @@ public class EditTicketForm extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-//                params.put("X-CSRF-Token", accessToken);
-//                String [] s = dob.getText().toString().split("-");
-//                List<String> s1 = Arrays.asList(s);
-//                Collections.reverse(s1);
-//                String doB = TextUtils.join("-", s1);
 
                 String ten_khong_dau = Normalizer.normalize(realname.getText().toString(),
                         Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]","");
@@ -233,7 +239,6 @@ public class EditTicketForm extends AppCompatActivity {
                 params.put("gender", gender);
                 params.put("phone", phone);
                 params.put("idve", seatId);
-
 
                 Log.d("AAA", "getParams: OK!!!");
                 return params;

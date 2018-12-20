@@ -57,14 +57,6 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.bringToFront();
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
         currentTicket = new CurrentTicket();
 
         database = new Database(this, "driver.sqlite", null, 1);
@@ -263,6 +255,7 @@ public class Home extends AppCompatActivity
                 }
             });
             dialog.show();
+
         } else if (id == R.id.nav_route) {
             tablayout_position = 0;
             btn_SOS.setVisibility(View.VISIBLE);

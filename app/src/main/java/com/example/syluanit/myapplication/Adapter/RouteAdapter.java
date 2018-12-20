@@ -35,6 +35,8 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder>{
 
     Context context;
     ArrayList<RouteTicket> routeArrayList;
+//    String url = "http://192.168.43.218/busmanager/public/chonveAndroid";
+    String url;
 
     public RouteAdapter(Context context, ArrayList<RouteTicket> routeArrayList) {
         this.context = context;
@@ -60,7 +62,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
                 // Server Request
-                final String url = "http://192.168.43.218/busmanager/public/chonveAndroid";
+                String ip = context.getResources().getString(R.string.ip);
+                String address = context.getResources().getString(R.string.address);
+                url = ip + address + "/chonveAndroid";
 
                 final RequestQueue requestQueue = Volley.newRequestQueue(context);
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,

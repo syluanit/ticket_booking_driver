@@ -84,7 +84,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-//        Toast.makeText(getActivity(), "Map is Ready", Toast.LENGTH_SHORT).show();
+
         MapsInitializer.initialize(getContext());
         map = googleMap;
 
@@ -98,7 +98,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
             network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         } catch(Exception ex) {}
 
-
+        // ask phor GPS permission
         if(!gps_enabled[0] && !network_enabled) {
             // notify user
             AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
@@ -184,6 +184,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         distanceLayout = (LinearLayout) view.findViewById(R.id.DistanceLayout);
         myLayout.bringToFront();
 
+        // getLocationPermistion -> initMap -> onMapReady -> init
         if ( isServicesOK()) {
             getLocationPermission();
             et_from.setText("");
@@ -244,14 +245,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         }
     };
 
-
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//
-//    }
-
-
+    // check google service
     public boolean isServicesOK() {
         Log.d(TAG, "isServicesOK: checking google services version");
 
@@ -272,6 +266,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         return false;
     }
 
+    // create map
     private void initMap() {
         mapView = (MapView) view.findViewById(R.id.myMap);
         if (mapView != null) {
@@ -295,6 +290,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         et_from.setAdapter(placeAutocompleteAdapter);
         et_to.setAdapter(placeAutocompleteAdapter);
 
+        //catch event
         et_from.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -331,6 +327,7 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         });
     }
 
+    // move camera to the desire place
     private void geoLocate() {
         Log.d(TAG, "geoLocate: geolocating");
 
@@ -338,21 +335,20 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
 
         Geocoder geocoder = new Geocoder(getActivity());
         List<Address> list = new ArrayList<>();
-
+        // get the Address rom the location name
         if (Geocoder.isPresent()) {
-
             try {
                 list = geocoder.getFromLocationName(searchString, 1);
             } catch (IOException e) {
                 Log.e(TAG, "geoLocate: " + e.getMessage());
             }
         }
-
+        //move camera to that address
         if (list.size() > 0) {
             Address address = list.get(0);
 
             Log.d(TAG, "geoLocate: found a location" + address.toString());
-//            Toast.makeText(getActivity(), address.toString(), Toast.LENGTH_SHORT).show();
+
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM
                     , address.getAddressLine(0));
         }
@@ -463,7 +459,6 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
     /*
 ---------------------------- google places API complete suggestions-------------------
  */
-
     private AdapterView.OnItemClickListener mAutocompleteClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -476,7 +471,6 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
             placeResult.addOnCompleteListener(mUpdatePlaceDetailsCallback);
         }
     };
-
 
     private OnCompleteListener<PlaceBufferResponse> mUpdatePlaceDetailsCallback
             = new OnCompleteListener<PlaceBufferResponse>() {
@@ -566,18 +560,16 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
         originMarkers = new ArrayList<>();
         destinationMarkers = new ArrayList<>();
 
+        //draw direction between two points
         for (Route route : routes) {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
             ((TextView) view.findViewById(R.id.tvDuration)).setText(route.duration.text
                     + "(" +route.distance.text + ")");
-//            ((TextView) findViewById(R.id.tvDistance)).setText(route.distance.text);
 
             originMarkers.add(map.addMarker(new MarkerOptions()
-//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue))
                     .title(route.startAddress)
                     .position(route.startLocation)));
             destinationMarkers.add(map.addMarker(new MarkerOptions()
-//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green))
                     .title(route.endAddress)
                     .position(route.endLocation)));
 
@@ -586,15 +578,11 @@ public class Fragment_Ban_Do extends Fragment implements OnMapReadyCallback,
                     color(ContextCompat.getColor(getContext(),R.color.colorPrimary)).
                     width(10).
                     pattern(PATTERN_POLYLINE_DOTTED).
-//                    endCap(new RoundCap()).
                     jointType(JointType.ROUND);
-//                    .startCap(new CustomCap(
-//                            BitmapDescriptorFactory.fromResource(R.mipmap.location), 10));
 
             for (int i = 0; i < route.points.size(); i++)
                 polylineOptions.add(route.points.get(i));
 
-//            Log.d(TAG, "onDirectionFinderSuccess: " + polylineOptions.toString());
             polylinePaths.add(map.addPolyline(polylineOptions));
 
         }

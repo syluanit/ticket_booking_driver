@@ -49,7 +49,8 @@ public class So_Do_Xe_Adapter extends RecyclerView.Adapter<So_Do_Xe_Adapter.View
 
     private Context context;
     ArrayList<GheNgoi> mangGheNgoi;
-    String url = "http://192.168.43.218/busmanager/public/ticketInfoAndroid";
+//    String url = "http://192.168.43.218/busmanager/public/ticketInfoAndroid";
+    String url;
 
     public So_Do_Xe_Adapter(Context context, ArrayList<GheNgoi> mangGheNgoi) {
         this.context = context;
@@ -158,13 +159,16 @@ public class So_Do_Xe_Adapter extends RecyclerView.Adapter<So_Do_Xe_Adapter.View
 
     private void sendData(String url, final String ticketId){
 
+        String ip = context.getResources().getString(R.string.ip);
+        String address = context.getResources().getString(R.string.address);
+        url = ip + address + "/ticketInfoAndroid";
+
         final RequestQueue requestQueue = Volley.newRequestQueue(context);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("AAA", "onResponse: yeahyeah" + response.toString());
-//
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String result = jsonObject.getString("kq");
@@ -245,9 +249,7 @@ public class So_Do_Xe_Adapter extends RecyclerView.Adapter<So_Do_Xe_Adapter.View
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-
                 params.put("idve", ticketId);
-
                 Log.d("AAA", "getParams: OK!!!");
                 return params;
             }

@@ -170,56 +170,20 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
 
                 map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                     @Override
-                    public void onMarkerDragStart(Marker marker) {
-                    }
-
+                    public void onMarkerDragStart(Marker marker) { }
                     @Override
-                    public void onMarkerDrag(Marker marker) {
-
-                    }
-
+                    public void onMarkerDrag(Marker marker) { }
                     @Override
                     public void onMarkerDragEnd(Marker marker) {
                         map.clear();
-                        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-
-//                        List <Address> addresses =  geocoder.getFromLocation(marker.getPosition().latitude,
-//                                marker.getPosition().longitude, 1);
-//
-//                        String changePostion = addresses.get(0).getAddressLine(0);
-//                        Log.d(TAG, "onMarkerDragEnd: "+ changePostion);
-
                         String changePostion = getCompleteAddressString(marker.getPosition());
-
-//                        List <Address> addresses1 =  geocoder.getFromLocation(originMarkers.get(0).getPosition().latitude,
-//                                originMarkers.get(0).getPosition().longitude, 1);
-//
-//                        String startAddress = addresses1.get(0).getAddressLine(0);
-//
-//                        Log.d(TAG, "onMarkerDragEnd: " + startAddress);
-//
-//                        List <Address> addresses2 =  geocoder.getFromLocation(destinationMarkers.get(0).getPosition().latitude,
-//                                destinationMarkers.get(0).getPosition().longitude, 1);
-//
-//                        String endAddress = addresses2.get(0).getAddressLine(0);
-//
-//                        Log.d(TAG, "onMarkerDragEnd: " + endAddress);
-
                         String endAddress = getCompleteAddressString(destinationMarkers.get(0).getPosition());
                         String startAddress = getCompleteAddressString(originMarkers.get(0).getPosition());
-                        sign = 1;
                         try {
-                            new DirectionFinder(Fragment_Duong_Di_Moi.this, "quan 1", changePostion).execute();
-                            new DirectionFinder(Fragment_Duong_Di_Moi.this, changePostion, "quan 3").execute();
+                            new DirectionFinder(Fragment_Duong_Di_Moi.this, startAddress, changePostion).execute();
+                            new DirectionFinder(Fragment_Duong_Di_Moi.this, changePostion, endAddress).execute();
                         } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-
-//                    LatLng changePosition = marker.getPosition();
-//                    LatLng startAddress = originMarkers.get(0).getPosition();
-//                    LatLng endAddress = destinationMarkers.get(0).getPosition();
-
-
+                            e.printStackTrace(); }
                         moveCamera(marker.getPosition(), DEFAULT_ZOOM, "Changed");
                     }
                 });
@@ -228,6 +192,7 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
         }
     }
 
+    //return complete Location's Address with latlng
     private String getCompleteAddressString(LatLng latLng) {
         String strAdd = "";
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
@@ -310,8 +275,6 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
     }
 
     private void initMap() {
-//        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.myAddNewRoadMap);
-//        mapFragment.getMapAsync(this);
         MapView mapView = (MapView) view.findViewById(R.id.myMap_addNewRoad);
         if (mapView != null) {
             mapView.onCreate(null);
@@ -490,18 +453,7 @@ public class Fragment_Duong_Di_Moi extends Fragment implements OnMapReadyCallbac
                 }
               }
 
-//            Log.d(TAG, "onDirectionFinderSuccess: " + polylineOptions.toString());
             polylinePaths.add(map.addPolyline(polylineOptions));
-//            Polyline polyline = map.addPolyline(polylineOptions);
-//            polyline.setClickable(true);
-//            map.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
-//                @Override
-//                public void onPolylineClick(Polyline polyline) {
-//                    Toast.makeText(getActivity(), "yeah yeah", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-
-
 
         }
     }

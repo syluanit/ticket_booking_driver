@@ -40,6 +40,7 @@ public class DirectionFinder {
         new DownloadRawData().execute(createUrl());
     }
 
+    //link API
     private String createUrl() throws UnsupportedEncodingException {
         //Value of origin
         String urlOrigin = "origin=" + URLEncoder.encode(origin, "utf-8");

@@ -41,6 +41,8 @@ public class Sign_Up_Activity extends AppCompatActivity {
     Button signUp;
     EditText username, password, rePassword, realname, dob, phoneNumber, address;
     String gender = "0";
+//    String url = "http://192.168.43.218/busmanager/public/dangkyDriverAndroid";
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,9 @@ public class Sign_Up_Activity extends AppCompatActivity {
                     Toast.makeText(Sign_Up_Activity.this, "Vui lòng nhập số điện thoại đúng!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    String url = "http://192.168.43.218/busmanager/public/dangkyDriverAndroid";
+                    String ip = getResources().getString(R.string.ip);
+                    String address = getResources().getString(R.string.address);
+                    url = ip + address + "/dangkyDriverAndroid";
                     sendUserData(url);
 
                 }
